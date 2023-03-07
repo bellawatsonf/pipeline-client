@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+  /* background: #999999; */
+  height: 100vh;
+  position: relative;
+}
+
+.boxLogin {
+  width: 500px;
+  /* height: 100%; */
+  background: #e5e4e2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-bottom: 50px;
+}
+
+.form {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.form-label {
+  font-family: fangsong;
+}
+
+.usericon {
+  margin: 25px 15px;
+}
+.usericon img {
+  margin: auto;
+  width: 22%;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .boxLogin {
+    width: 95%;
+  }
+}

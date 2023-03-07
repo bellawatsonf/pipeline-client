@@ -1,0 +1,18 @@
+>>pipeline
+pada saat add data baru pilhan status lgsg default input baru tidak usah ada dropdown pilihan lain(done)
+pada saat update dia jatohnya jd add tp di bagian status jd ada pilihan selain baru(tp barunya gausah ada dan wajib isi yg baru)(d0ne)
+status pengajuan kurang 1 yaitu baru(done)
+delete diganti menjadi archive(done)
+nama pipeline saat edit dilock(done)
+cek type data limit krn pas input jd null(done)
+get date blm tampil
+pipeline tampil sesuai user login(done)
+
+>> benerin lagi pagination
+>> tmbhin loading(done tp blm diaplikasiin di semua)(done)
+>> menu ganti password(done)
+>> logout(done)
+
+>> tmpilan admin user beda(udah tapi harus dicek lagi karena masalah di localstorage )(done)
+>> cek2 lg validasi inputan kaya nama gaboleh sama
+
