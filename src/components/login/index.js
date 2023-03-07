@@ -98,7 +98,7 @@ export default function LoginComponent() {
               <form onSubmit={handleSubmit} className={`${styleLogin.form}`}>
                 <div className="mb-2">
                   <label
-                    fhtmlFor="exampleInputEmail1"
+                    for="exampleInputEmail1"
                     className={styleLogin["form-label"]}
                   >
                     NIP
@@ -120,7 +120,7 @@ export default function LoginComponent() {
                 </div>
                 <div className="mb-2">
                   <label
-                    htmlFor="exampleInputPassword1"
+                    for="exampleInputPassword1"
                     className={styleLogin["form-label"]}
                   >
                     Password

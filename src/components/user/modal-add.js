@@ -310,9 +310,7 @@ export default function ModalAdd(props) {
                         <option>Pilih Group</option>
 
                         {dataGroup.nodes.map((el) => (
-                          <option value={el.id} key={el.id}>
-                            {el.nama_group}
-                          </option>
+                          <option value={el.id}>{el.nama_group}</option>
                         ))}
                       </Input>
                     </FormGroup>
