@@ -317,16 +317,7 @@ export default function PipelineComponent() {
             console.log(result, "result");
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-              if (stateField.nodes.length === 10) {
-                useEffect(() => {
-                  fetchPipeline({
-                    size: stateField.size,
-                    page: stateField.page,
-                  });
-                }, []);
-              } else {
-                fetchPipeline({ size: stateField.size, page: stateField.page });
-              }
+              fetchPipeline({ size: stateField.size, page: stateField.page });
             }
           });
         })
