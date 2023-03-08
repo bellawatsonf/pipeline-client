@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   let router = useRouter();
-  let token;
+  let token = null;
   if (typeof window !== "undefined") {
     // Perform localStorage action
     token = localStorage.getItem("token");
