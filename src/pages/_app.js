@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
     // Perform localStorage action
     token = localStorage.getItem("token");
   }
-  console.log(token, "props");
+  // console.log(token, "props");
   function componentDidMount() {
     renderPosts();
   }
