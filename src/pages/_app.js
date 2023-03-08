@@ -4,19 +4,20 @@ import "../styles/style.scss";
 import "../styles/global.css";
 import { RouteGuard } from "../../RouteGuard";
 import { useRouter } from "next/router";
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  let token = null;
-  if (typeof window !== "undefined") {
-    // Perform localStorage action
-    token = localStorage.getItem("token");
-  }
-  console.log(token, "props");
+  const [token, setToken] = useState("")
 
   useEffect(() => {
-    if (token) router.push("/login");
+    if (typeof window !== "undefined") {
+      // Perform localStorage action
+      setToken(localStorage.getItem("token"));
+    }
+    console.log(token, "props");
+
+    if (!token) router.push("/login");
   }, [token]);
 
   return (
@@ -30,7 +31,7 @@ function MyApp({ Component, pageProps }) {
       {Component.name !== "Login" ? (
         <FullLayout>
           {/* <RouteGuard> */}
-          <Component {...pageProps} />
+          {token ? <Component {...pageProps} /> : ""}
           {/* </RouteGuard> */}
         </FullLayout>
       ) : (
