@@ -3,7 +3,7 @@ import Head from "next/head";
 import "../styles/style.scss";
 import "../styles/global.css";
 import { RouteGuard } from "../../RouteGuard";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   let token = null;
@@ -11,16 +11,16 @@ function MyApp({ Component, pageProps }) {
     // Perform localStorage action
     token = localStorage.getItem("token");
   }
-  // console.log(token, "props");
+  console.log(token, "props");
   function componentDidMount() {
     renderPosts();
   }
 
   const renderPosts = async () => {
-    // let router = useRouter();
+    let router = useRouter();
 
     try {
-      Router.push("/login");
+      router.push("/login");
     } catch (err) {
       console.log(err);
     }
