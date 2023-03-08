@@ -3,7 +3,7 @@ import Head from "next/head";
 import "../styles/style.scss";
 import "../styles/global.css";
 import { RouteGuard } from "../../RouteGuard";
-import { useRouter } from "next/router";
+import Router from "next/router";
 
 function MyApp({ Component, pageProps }) {
   let token = null;
@@ -17,10 +17,10 @@ function MyApp({ Component, pageProps }) {
   }
 
   const renderPosts = async () => {
-    let router = useRouter();
+    // let router = useRouter();
 
     try {
-      router.push("/login");
+      Router.push("/login");
     } catch (err) {
       console.log(err);
     }
