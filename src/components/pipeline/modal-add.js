@@ -339,7 +339,9 @@ export default function ModalAdd(props) {
                           {dataPengajuan?.nodes
                             ?.filter((el) => el.nama_pengajuan !== "BARU")
                             .map((el) => (
-                              <option value={el.id}>{el.nama_pengajuan}</option>
+                              <option value={el.id} key={el.id}>
+                                {el.nama_pengajuan}
+                              </option>
                             ))}
                         </Input>
                       </FormGroup>
@@ -427,7 +429,9 @@ export default function ModalAdd(props) {
                       >
                         <option>Choose Progress</option>
                         {dataProgress.nodes.map((el) => (
-                          <option value={el.id}>{el.nama_progress}</option>
+                          <option value={el.id} key={el.id}>
+                            {el.nama_progress}
+                          </option>
                         ))}
                       </Input>
                     </FormGroup>

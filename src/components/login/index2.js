@@ -29,7 +29,7 @@ export default function LoginComponent() {
                       className="form-control"
                       placeholder="Phone number or email address"
                     />
-                    <label className="form-label" for="form2Example11">
+                    <label className="form-label" htmlFor="form2Example11">
                       Username
                     </label>
                   </div>
@@ -40,7 +40,7 @@ export default function LoginComponent() {
                       id="form2Example22"
                       className="form-control"
                     />
-                    <label className="form-label" for="form2Example22">
+                    <label className="form-label" htmlFor="form2Example22">
                       Password
                     </label>
                   </div>
