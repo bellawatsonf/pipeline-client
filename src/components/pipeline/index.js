@@ -9,7 +9,7 @@ import {
   Row,
   Cell,
   useCustom,
-} from "@table-library/react-table-library/Table";
+} from "@table-library/react-table-library/table";
 import React, { useState, useEffect } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import BorderColorIcon from "@mui/icons-material/BorderColor";

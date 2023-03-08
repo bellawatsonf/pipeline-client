@@ -8,7 +8,7 @@ import {
   Body,
   Row,
   Cell,
-} from "@table-library/react-table-library/Table";
+} from "@table-library/react-table-library/table";
 import {
   useSort,
   HeaderCellSort,
