@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
       {Component.name !== "Login" ? (
         <FullLayout>
           {/* <RouteGuard> */}
-          {token ? <Component {...pageProps} /> : ""}
+          <Component {...pageProps} />
           {/* </RouteGuard> */}
         </FullLayout>
       ) : (
