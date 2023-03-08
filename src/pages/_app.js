@@ -4,27 +4,21 @@ import "../styles/style.scss";
 import "../styles/global.css";
 import { RouteGuard } from "../../RouteGuard";
 import { useRouter } from "next/router";
+import { useEffect } from "react"
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
   let token = null;
   if (typeof window !== "undefined") {
     // Perform localStorage action
     token = localStorage.getItem("token");
   }
   console.log(token, "props");
-  function componentDidMount() {
-    renderPosts();
-  }
 
-  const renderPosts = async () => {
-    let router = useRouter();
+  useEffect(() => {
+    if (token) router.push("/login");
+  }, [token]);
 
-    try {
-      router.push("/login");
-    } catch (err) {
-      console.log(err);
-    }
-  };
   return (
     <>
       <Head>
@@ -36,7 +30,7 @@ function MyApp({ Component, pageProps }) {
       {Component.name !== "Login" ? (
         <FullLayout>
           {/* <RouteGuard> */}
-          {token ? <Component {...pageProps} /> : componentDidMount()}
+          <Component {...pageProps} />
           {/* </RouteGuard> */}
         </FullLayout>
       ) : (
