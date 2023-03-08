@@ -6,7 +6,6 @@ import { RouteGuard } from "../../RouteGuard";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
-  let router = useRouter();
   let token = null;
   if (typeof window !== "undefined") {
     // Perform localStorage action
@@ -18,6 +17,8 @@ function MyApp({ Component, pageProps }) {
   }
 
   const renderPosts = async () => {
+    let router = useRouter();
+
     try {
       router.push("/login");
     } catch (err) {
