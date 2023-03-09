@@ -2,24 +2,28 @@ import FullLayout from "../layouts/FullLayout";
 import Head from "next/head";
 import "../styles/style.scss";
 import "../styles/global.css";
-// import { RouteGuard } from "../../RouteGuard";
-// import { useRouter } from "next/router";
-// import { useEffect, useState } from "react";
+import { RouteGuard } from "../../RouteGuard";
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
-  // const router = useRouter();
-  // const [token, setToken] = useState("");
+  let router = useRouter();
+  let token;
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    token = localStorage.getItem("token");
+  }
+  console.log(token, "props");
+  function componentDidMount() {
+    renderPosts();
+  }
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     // Perform localStorage action
-  //     setToken(localStorage.getItem("token"));
-  //   }
-  //   console.log(token, "props");
-
-  //   if (!token) router.push("/login");
-  // }, [token]);
-
+  const renderPosts = async () => {
+    try {
+      router.push("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <Head>
@@ -31,7 +35,7 @@ function MyApp({ Component, pageProps }) {
       {Component.name !== "Login" ? (
         <FullLayout>
           {/* <RouteGuard> */}
-          <Component {...pageProps} />
+          {token ? <Component {...pageProps} /> : componentDidMount()}
           {/* </RouteGuard> */}
         </FullLayout>
       ) : (
