@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }) {
       {Component.name !== "Login" ? (
         <FullLayout>
           {/* <RouteGuard> */}
-          {token ? <Component {...pageProps} /> : router.push("/login")}
+          {<Component {...pageProps} />}
           {/* </RouteGuard> */}
         </FullLayout>
       ) : (
