@@ -18,6 +18,7 @@ import LogoWhite from "../../assets/images/logos/xtremelogowhite.svg";
 import user1 from "../../assets/images/users/user1.jpg";
 import { useRouter } from "next/router";
 import { Typography } from "@mui/material";
+import { LoadingScreen } from "../../components/loading";
 
 const Header = ({ showMobmenu }) => {
   const [isOpen, setIsOpen] = React.useState(false);
