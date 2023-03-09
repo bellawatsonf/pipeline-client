@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   let router = useRouter();
-  let token = null;
+  let token;
+  console.log(typeof window, "typeof");
   if (typeof window !== "undefined") {
     token = localStorage.getItem("token");
   }
@@ -34,7 +35,7 @@ function MyApp({ Component, pageProps }) {
       {Component.name !== "Login" ? (
         <FullLayout>
           {/* <RouteGuard> */}
-          {token ? <Component {...pageProps} /> : componentDidMount()}
+          {token ? <Component {...pageProps} /> : router.push("/login")}
           {/* </RouteGuard> */}
         </FullLayout>
       ) : (
