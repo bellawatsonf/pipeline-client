@@ -9,7 +9,6 @@ function MyApp({ Component, pageProps }) {
   let router = useRouter();
   let token;
   if (typeof window !== "undefined") {
-    // Perform localStorage action
     token = localStorage.getItem("token");
   }
   console.log(token, "props");
