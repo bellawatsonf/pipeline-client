@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }) {
 
       {Component.name !== "Login" ? (
         <FullLayout>
-          {token ? <Component {...pageProps} /> : componentDidMount()}
+          <Component {...pageProps} />
         </FullLayout>
       ) : (
         <Component {...pageProps} />
