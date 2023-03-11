@@ -1,5 +1,5 @@
 import style from "./style2.module.css";
-export default function LoginComponent() {
+export default function LoginComponent7() {
   return (
     <section
       className={`${style.gradientForm}h-100`}

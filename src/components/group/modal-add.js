@@ -5,10 +5,21 @@ import * as Yup from "yup";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+Yup.addMethod(Yup.array, "unique", function (message, mapper = (a) => a) {
+  return this.test("unique", message, function (list) {
+    return list.length === new Set(list.map(mapper)).size;
+  });
+});
 let validationSchema = Yup.object({
-  group_name: Yup.string().required("group name must be fill"),
+  group_name: Yup.array()
+    .of(Yup.string())
+    .unique("group name must be unique")
+    .required("group name must be fill"),
+
+  // .unique("group name must be unique", (a) => a.group_name),
 });
 export default function ModalAdd(props) {
+  console.log(props.dataGroup, "datagrup");
   let initialValue = {
     group_name: "",
   };
@@ -43,7 +54,7 @@ export default function ModalAdd(props) {
       });
   }
   function prosesSubmit(data) {
-    console.log(data, "data");
+    console.log(data, "datassss");
     let input = {
       nama_group: data.group_name,
     };

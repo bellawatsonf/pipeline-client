@@ -4,7 +4,7 @@ import "../styles/style.scss";
 import "../styles/global.css";
 import { RouteGuard } from "../../RouteGuard";
 import { useRouter } from "next/router";
-import LoginComponent from "../components/login";
+import LoginComponent from "../components/login/index4";
 import Router from "next/router";
 import { useEffect } from "react";
 function MyApp({ Component, pageProps }) {

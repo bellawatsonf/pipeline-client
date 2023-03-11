@@ -299,6 +299,7 @@ export default function GroupComponent() {
               setOpen={setOpen}
               statusForm={statusForm}
               id={id}
+              dataGroup={stateField.nodes}
             />
           </DialogContent>
         </Dialog>

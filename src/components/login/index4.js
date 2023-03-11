@@ -1,4 +1,4 @@
-import loginStyle from "./loginstyle.module.css";
+import styleLogin from "./login.module.css";
 import { ErrorMessage, Formik } from "formik";
 import { Button, Typography } from "@mui/material";
 import * as Yup from "yup";
@@ -10,9 +10,8 @@ import { LoadingScreen } from "../loading";
 
 const validationSchema = Yup.object({
   nip: Yup.string().required("nip must be fill"),
-  password: Yup.string().required("password must be fill"),
 });
-export default function LoginComponent() {
+export default function LoginComponent6() {
   let router = useRouter();
   const initialState = {
     nip: "",
@@ -60,19 +59,22 @@ export default function LoginComponent() {
 
   if (isLoading) return <LoadingScreen />;
   return (
-    <div className={loginStyle["container"]}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          maxWidth: "350px",
-          width: "100%",
-          background: "#dee2e6",
-          margin: "auto",
-          height: "300px",
-          marginTop: "10%",
-        }}
-      >
+    <div className={`${styleLogin.container}`}>
+      <div className={`${styleLogin.boxLogin}`}>
+        <div className={`${styleLogin.usericon}`}>
+          <img src="/assets/user.png" />
+          <Typography
+            sx={{
+              marginTop: "10px",
+              fontFamily: "fangsong",
+              fontSize: { xs: "20px", md: "23px", lg: "26px" },
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            Login
+          </Typography>
+        </div>
         <Formik
           validateOnChange={true}
           initialValues={stateField}
@@ -95,49 +97,72 @@ export default function LoginComponent() {
             } = props;
             console.log(values, "values");
             return (
-              <form action="#">
-                <div
-                  className={loginStyle["title"]}
-                  style={{ marginBottom: "40px" }}
-                >
-                  Login
-                </div>
-                <div className={loginStyle["input-box underline"]}>
+              <form onSubmit={handleSubmit} className={`${styleLogin.form}`}>
+                <div className="mb-2">
+                  <label
+                    htmlFor="exampleInputEmail1"
+                    className={styleLogin["form-label"]}
+                  >
+                    NIP
+                  </label>
                   <input
                     htmlFor=""
                     type="text"
-                    placeholder="Enter Your NIP"
+                    className="form-control"
                     id="nip"
+                    aria-describedby="emailHelp"
                     name="nip"
                     value={values.nip}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    required
                   />
-                  <div className={loginStyle["underline"]}></div>
                   {values.nip === "" && (
                     <ErrorMessage name="nip" render={renderError} />
                   )}
                 </div>
-                <div className={loginStyle["input-box underline"]}>
+                <div className="mb-2">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className={styleLogin["form-label"]}
+                  >
+                    Password
+                  </label>
                   <input
                     htmlFor="password"
+                    type="password"
+                    className="form-control"
+                    id="exampleInputPassword1"
                     name="password"
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    type="password"
-                    placeholder="Enter Your Password"
-                    required
                   />
-                  <div className={loginStyle["underline"]}></div>
-                  {values.password === "" && (
-                    <ErrorMessage name="password" render={renderError} />
-                  )}
                 </div>
-                <div className={loginStyle["input-box button"]}>
-                  <input type="submit" name="" value="Submit" />
+                <div style={{ marginBottom: "30px" }}>
+                  <Typography
+                    sx={{
+                      fontSize: "13px",
+                      fontFamily: "fangsong",
+                    }}
+                  >
+                    <a style={{ textDecoration: "none" }} href="">
+                      Forgot Password
+                    </a>
+                  </Typography>
                 </div>
+                <Button
+                  sx={{
+                    width: "60%",
+                    background: "#045FB4",
+                    margin: "auto",
+                    display: "block",
+                    fontFamily: "fangsong",
+                  }}
+                  variant="contained"
+                  type="submit"
+                >
+                  Submit
+                </Button>
               </form>
             );
           }}
