@@ -4,6 +4,7 @@ import "../styles/style.scss";
 import "../styles/global.css";
 import { RouteGuard } from "../../RouteGuard";
 import { useRouter } from "next/router";
+import LoginComponent from "../components/login";
 
 function MyApp({ Component, pageProps }) {
   let router = useRouter();
@@ -26,7 +27,7 @@ function MyApp({ Component, pageProps }) {
     }
   };
 
-  console.log({ Component }, "router");
+  console.log(Component.name, "router");
 
   return (
     <>
@@ -36,12 +37,19 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {Component.name !== "Login" ? (
-        <FullLayout>
-          <Component {...pageProps} />
-        </FullLayout>
-      ) : (
+      {Component.name === "Login" ? (
         <Component {...pageProps} />
+      ) : (
+        <>
+          {token !== null ? (
+            <FullLayout>
+              <Component {...pageProps} />
+            </FullLayout>
+          ) : (
+            componentDidMount()
+          )}
+        </>
+        // <p>no</p>
       )}
       {/* <FullLayout>
         <Component {...pageProps} />
