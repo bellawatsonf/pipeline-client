@@ -2,14 +2,14 @@ import FullLayout from "../layouts/FullLayout";
 import Head from "next/head";
 import "../styles/style.scss";
 import "../styles/global.css";
-// import { RouteGuard } from "../../RouteGuard";
+import { RouteGuard } from "../../RouteGuard";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   let router = useRouter();
   let token;
-  console.log(typeof window, "typeof");
   if (typeof window !== "undefined") {
+    // Perform localStorage action
     token = localStorage.getItem("token");
   }
   console.log(token, "props");
@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }) {
       {Component.name !== "Login" ? (
         <FullLayout>
           {/* <RouteGuard> */}
-          {<Component {...pageProps} />}
+          {token ? <Component {...pageProps} /> : componentDidMount()}
           {/* </RouteGuard> */}
         </FullLayout>
       ) : (
