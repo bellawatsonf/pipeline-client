@@ -95,7 +95,7 @@ export default function LoginComponent() {
             } = props;
             console.log(values, "values");
             return (
-              <form action="#">
+              <form onSubmit={handleSubmit}>
                 <div
                   className={loginStyle["title"]}
                   style={{ marginBottom: "40px" }}
