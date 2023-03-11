@@ -72,7 +72,7 @@ export default function LoginComponent() {
               fontWeight: "bold",
             }}
           >
-            Login
+            Login.
           </Typography>
         </div>
         <Formik
