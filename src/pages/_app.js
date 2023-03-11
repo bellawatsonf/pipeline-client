@@ -14,8 +14,11 @@ function MyApp({ Component, pageProps }) {
     token = localStorage.getItem("token");
   }
   console.log(token, "props");
-  function componentDidMount() {
-    renderPosts();
+  // function componentDidMount() {
+  //   renderPosts();
+  // }
+  function backhome() {
+    router.push("/");
   }
 
   const renderPosts = async () => {
@@ -46,7 +49,7 @@ function MyApp({ Component, pageProps }) {
               <Component {...pageProps} />
             </FullLayout>
           ) : (
-            componentDidMount()
+            backhome()
           )}
         </>
         // <p>no</p>
