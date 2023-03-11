@@ -2,7 +2,7 @@ import FullLayout from "../layouts/FullLayout";
 import Head from "next/head";
 import "../styles/style.scss";
 import "../styles/global.css";
-import { RouteGuard } from "../../RouteGuard";
+// import { RouteGuard } from "../../RouteGuard";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
