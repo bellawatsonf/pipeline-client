@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
   let router = useRouter();
-  let token;
+  let token = null;
   if (typeof window !== "undefined") {
     // Perform localStorage action
     token = localStorage.getItem("token");
@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }) {
       console.log(err);
     }
   };
+
   return (
     <>
       <Head>
@@ -34,13 +35,21 @@ function MyApp({ Component, pageProps }) {
 
       {Component.name !== "Login" ? (
         <FullLayout>
-          {/* <RouteGuard> */}
           {token ? <Component {...pageProps} /> : componentDidMount()}
-          {/* </RouteGuard> */}
         </FullLayout>
       ) : (
         <Component {...pageProps} />
       )}
+      {/* <FullLayout>
+        <Component {...pageProps} />
+      </FullLayout> */}
+      {/* {router.pathname !== "Login" && token !== null ? (
+        <FullLayout>
+          <Component {...pageProps} />
+        </FullLayout>
+      ) : (
+        <Component {...pageProps} />
+      )} */}
     </>
   );
 }

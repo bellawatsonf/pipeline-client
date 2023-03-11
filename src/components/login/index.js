@@ -43,7 +43,8 @@ export default function LoginComponent() {
         localStorage.setItem("level", response?.data?.level);
         localStorage.setItem("id", response?.data?.id);
         setLoading(false);
-        router.push("/");
+        // router.push("/dasboard");
+        router.push("/dashboard");
       })
       .catch(function (error) {
         console.log(error, "eror");

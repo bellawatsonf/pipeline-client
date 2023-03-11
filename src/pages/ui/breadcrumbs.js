@@ -27,7 +27,7 @@ const Breadcrumbs = () => {
             </Breadcrumb>
             <Breadcrumb>
               <BreadcrumbItem>
-                <Link href="/">Home</Link>
+                <Link href="/dashboard">Home</Link>
               </BreadcrumbItem>
               <BreadcrumbItem active>Library</BreadcrumbItem>
             </Breadcrumb>
