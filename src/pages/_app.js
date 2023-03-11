@@ -19,11 +19,14 @@ function MyApp({ Component, pageProps }) {
 
   const renderPosts = async () => {
     try {
-      router.push("/login");
+      // router.push("/login");
+      router.push("/");
     } catch (err) {
       console.log(err);
     }
   };
+
+  console.log({ Component }, "router");
 
   return (
     <>

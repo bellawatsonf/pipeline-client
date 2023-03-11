@@ -142,7 +142,8 @@ export default function SectorComponent() {
           text: e.response.data.message,
         }).then(() => {
           if (e.response.data.message === "Please Login First") {
-            router.push("/login");
+            // router.push("/login");
+            router.push("/");
           }
         });
       });

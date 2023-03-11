@@ -52,7 +52,8 @@ export default function LoginComponent() {
           icon: "error",
           text: error.response.data.message,
         });
-        router.push("/login");
+        // router.push("/login");
+        router.push("/");
       });
   }
 
