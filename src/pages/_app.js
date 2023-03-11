@@ -5,7 +5,8 @@ import "../styles/global.css";
 import { RouteGuard } from "../../RouteGuard";
 import { useRouter } from "next/router";
 import LoginComponent from "../components/login";
-
+import Router from "next/router";
+import { useEffect } from "react";
 function MyApp({ Component, pageProps }) {
   let router = useRouter();
   let token = null;
@@ -14,12 +15,18 @@ function MyApp({ Component, pageProps }) {
     token = localStorage.getItem("token");
   }
   console.log(token, "props");
-  // function componentDidMount() {
-  //   renderPosts();
-  // }
-  function backhome() {
-    router.push("/");
+  function componentDidMount() {
+    if (token === null) {
+      Router.replace("/");
+    }
   }
+
+  useEffect(() => {
+    componentDidMount();
+  }, []);
+  // function backhome() {
+  //   router.push("/");
+  // }
 
   const renderPosts = async () => {
     try {
@@ -44,13 +51,9 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       ) : (
         <>
-          {token !== null ? (
-            <FullLayout>
-              <Component {...pageProps} />
-            </FullLayout>
-          ) : (
-            backhome()
-          )}
+          <FullLayout>
+            <Component {...pageProps} />
+          </FullLayout>
         </>
         // <p>no</p>
       )}
