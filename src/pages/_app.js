@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }) {
   };
 
   console.log(Component.name, "router");
-  console.log({ Component }, "router2");
+  console.log({ Component }, "router22");
 
   return (
     <>
