@@ -69,7 +69,7 @@ export default function LoginComponent() {
           width: "100%",
           background: "#dee2e6",
           margin: "auto",
-          height: "300px",
+          height: "320px",
           marginTop: "10%",
         }}
       >
@@ -96,11 +96,12 @@ export default function LoginComponent() {
             console.log(values, "values");
             return (
               <form onSubmit={handleSubmit}>
+                <div className={loginStyle["title"]}>Login</div>
                 <div
-                  className={loginStyle["title"]}
-                  style={{ marginBottom: "40px" }}
+                  // className={loginStyle["input-box underline"]}
+                  style={{ marginBottom: "20px", color: "#2c3e50" }}
                 >
-                  Login
+                  Pipeline Management
                 </div>
                 <div className={loginStyle["input-box underline"]}>
                   <input
@@ -138,6 +139,16 @@ export default function LoginComponent() {
                 <div className={loginStyle["input-box button"]}>
                   <input type="submit" name="" value="Submit" />
                 </div>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    fontSize: "12px",
+                    color: "grey",
+                    marginTop: "10px",
+                  }}
+                >
+                  &copy; 2023
+                </Typography>
               </form>
             );
           }}
