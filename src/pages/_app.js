@@ -50,6 +50,7 @@ function MyApp({ Component, pageProps }) {
 
       {Component.name === "c" ||
       Component.name === "s" ||
+      Component.name === "r" ||
       Component.name === "Login" ? (
         <Component {...pageProps} />
       ) : (
