@@ -112,7 +112,7 @@ export default function ProgressComponent() {
     setLoading(true);
     axios({
       method: "get",
-      url: `http://localhost:3000/progress?page=${params.page}&size=100`,
+      url: `http://server-pipeline.herokuapp.com/progress?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -141,7 +141,7 @@ export default function ProgressComponent() {
   function prosesDelete(id) {
     axios({
       method: "delete",
-      url: `http://localhost:3000/delete-progress/${id}`,
+      url: `http://server-pipeline.herokuapp.com/delete-progress/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },

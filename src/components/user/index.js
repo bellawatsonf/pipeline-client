@@ -129,7 +129,7 @@ export default function PegawaiComponent() {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `http://localhost:3000/pegawai?page=${params.page}&size=100`,
+      url: `http://server-pipeline.herokuapp.com/pegawai?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -164,7 +164,7 @@ export default function PegawaiComponent() {
   function prosesDelete(id) {
     axios({
       method: "delete",
-      url: `http://localhost:3000/delete-pegawai/${id}`,
+      url: `http://server-pipeline.herokuapp.com/delete-pegawai/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },

@@ -32,7 +32,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `http://localhost:3000/group/${props.id}`,
+      url: `http://server-pipeline.herokuapp.com/group/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -59,7 +59,7 @@ export default function ModalAdd(props) {
       nama_group: data.group_name,
     };
     axios
-      .post("http://localhost:3000/add-group", input, {
+      .post("http://server-pipeline.herokuapp.com/add-group", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -91,11 +91,15 @@ export default function ModalAdd(props) {
       nama_group: data.group_name,
     };
     axios
-      .put(`http://localhost:3000/edit-group/${props.id}`, input, {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
+      .put(
+        `http://server-pipeline.herokuapp.com/edit-group/${props.id}`,
+        input,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      )
       .then(function (response) {
         props.setOpen(false);
         Swal.fire({

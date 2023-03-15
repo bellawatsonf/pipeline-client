@@ -109,7 +109,7 @@ export default function GroupComponent() {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `http://localhost:3000/group?page=${params.page}&size=100`,
+      url: `http://server-pipeline.herokuapp.com/group?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -135,7 +135,7 @@ export default function GroupComponent() {
   function prosesDelete(id) {
     axios({
       method: "delete",
-      url: `http://localhost:3000/delete-group/${id}`,
+      url: `http://server-pipeline.herokuapp.com/delete-group/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },

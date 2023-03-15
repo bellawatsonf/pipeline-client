@@ -11,7 +11,7 @@ import React from "react";
 const navigation = [
   {
     title: "Dashboard",
-    href: "/",
+    href: "/dashboard",
     icon: "bi bi-speedometer2",
     level: ["admin", "user", "super admin"],
   },

@@ -48,7 +48,7 @@ export default function ModalAdd(props) {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: "http://localhost:3000/group?page=0&size=100",
+      url: "http://server-pipeline.herokuapp.com/group?page=0&size=100",
 
       headers: {
         token: localStorage.getItem("token"),
@@ -73,7 +73,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `http://localhost:3000/pegawai/${props.id}`,
+      url: `http://server-pipeline.herokuapp.com/pegawai/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -112,7 +112,7 @@ export default function ModalAdd(props) {
     };
     console.log(input, "datainput");
     axios
-      .post("http://localhost:3000/add-pegawai", input, {
+      .post("http://server-pipeline.herokuapp.com/add-pegawai", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -156,11 +156,15 @@ export default function ModalAdd(props) {
       lokasi: data.lokasi,
     };
     axios
-      .put(`http://localhost:3000/edit-pegawai/${props.id}`, input, {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
+      .put(
+        `http://server-pipeline.herokuapp.com/edit-pegawai/${props.id}`,
+        input,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      )
       .then(function (response) {
         props.setOpen(false);
         Swal.fire({
