@@ -60,7 +60,7 @@ export default function ModalChangePassword(props) {
           };
           axios({
             method: "patch",
-            url: `http://server-pipeline.herokuapp.com/edit-password/${id}`,
+            url: `https://server-pipeline.herokuapp.com/edit-password/${id}`,
             headers: {
               token: localStorage.getItem("token"),
             },

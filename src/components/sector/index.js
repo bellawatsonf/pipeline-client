@@ -119,7 +119,7 @@ export default function SectorComponent() {
     setLoading(true);
     axios({
       method: "get",
-      url: `http://server-pipeline.herokuapp.com/sektor?page=${params.page}&size=100`,
+      url: `https://server-pipeline.herokuapp.com/sektor?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -153,7 +153,7 @@ export default function SectorComponent() {
     // setLoading(true);
     axios({
       method: "delete",
-      url: `http://server-pipeline.herokuapp.com/delete-sektor/${id}`,
+      url: `https://server-pipeline.herokuapp.com/delete-sektor/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },

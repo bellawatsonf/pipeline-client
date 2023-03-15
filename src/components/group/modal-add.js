@@ -32,7 +32,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `http://server-pipeline.herokuapp.com/group/${props.id}`,
+      url: `https://server-pipeline.herokuapp.com/group/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -59,7 +59,7 @@ export default function ModalAdd(props) {
       nama_group: data.group_name,
     };
     axios
-      .post("http://server-pipeline.herokuapp.com/add-group", input, {
+      .post("https://server-pipeline.herokuapp.com/add-group", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -92,7 +92,7 @@ export default function ModalAdd(props) {
     };
     axios
       .put(
-        `http://server-pipeline.herokuapp.com/edit-group/${props.id}`,
+        `https://server-pipeline.herokuapp.com/edit-group/${props.id}`,
         input,
         {
           headers: {

@@ -48,7 +48,7 @@ export default function ModalAdd(props) {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: "http://server-pipeline.herokuapp.com/group?page=0&size=100",
+      url: "https://server-pipeline.herokuapp.com/group?page=0&size=100",
 
       headers: {
         token: localStorage.getItem("token"),
@@ -73,7 +73,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `http://server-pipeline.herokuapp.com/pegawai/${props.id}`,
+      url: `https://server-pipeline.herokuapp.com/pegawai/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -112,7 +112,7 @@ export default function ModalAdd(props) {
     };
     console.log(input, "datainput");
     axios
-      .post("http://server-pipeline.herokuapp.com/add-pegawai", input, {
+      .post("https://server-pipeline.herokuapp.com/add-pegawai", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -157,7 +157,7 @@ export default function ModalAdd(props) {
     };
     axios
       .put(
-        `http://server-pipeline.herokuapp.com/edit-pegawai/${props.id}`,
+        `https://server-pipeline.herokuapp.com/edit-pegawai/${props.id}`,
         input,
         {
           headers: {

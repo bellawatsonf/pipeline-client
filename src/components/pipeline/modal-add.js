@@ -58,7 +58,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `http://server-pipeline.herokuapp.com/pipeline/${props.id}`,
+      url: `https://server-pipeline.herokuapp.com/pipeline/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -108,7 +108,7 @@ export default function ModalAdd(props) {
     };
     console.log(input, "datainout");
     axios
-      .post("http://server-pipeline.herokuapp.com/add-pipeline", input, {
+      .post("https://server-pipeline.herokuapp.com/add-pipeline", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -156,7 +156,7 @@ export default function ModalAdd(props) {
     console.log(input, "datainput");
     axios
       .put(
-        `http://server-pipeline.herokuapp.com/edit-pipeline/${props.id}`,
+        `https://server-pipeline.herokuapp.com/edit-pipeline/${props.id}`,
         input,
         {
           headers: {
@@ -194,7 +194,7 @@ export default function ModalAdd(props) {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `http://server-pipeline.herokuapp.com/pengajuan?page=0&size=1000`,
+      url: `https://server-pipeline.herokuapp.com/pengajuan?page=0&size=1000`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -225,7 +225,7 @@ export default function ModalAdd(props) {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `http://server-pipeline.herokuapp.com/progress?page=0&size=1000`,
+      url: `https://server-pipeline.herokuapp.com/progress?page=0&size=1000`,
 
       headers: {
         token: localStorage.getItem("token"),
