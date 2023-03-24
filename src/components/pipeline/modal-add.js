@@ -33,20 +33,22 @@ export default function ModalAdd(props) {
     id_pengajuan: "",
     tgl_RKP_A: "",
     tgl_RKP_B: "",
-    tgl_cair: "",
-    tgl_proyeksi_cair_rpm: "",
+    nominal_cair: "",
+    tgl_proyeksi: "",
     id_progress: "",
     id_pegawai: "",
+    id_sector: "",
     limit: "",
     data: {},
   };
   let [stateField, setStateField] = useState(initialValue);
   let [dataPengajuan, setDataPengajuan] = useState({ nodes: [] });
   let [dataProgress, setDataProgress] = useState({ nodes: [] });
+  let [dataSector, setDataSector] = useState({ nodes: [] });
   let router = useRouter();
   let getIdPegawai = localStorage.getItem("id");
   let [status, setStatus] = useState(props.statusForm);
-  const [isLoading, setLoading] = useState(false);
+  const [statusSubmit, setStatusSubmit] = useState(false);
 
   console.log(props.statusForm, "id");
   const renderError = (message) => (
@@ -58,7 +60,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pipeline/${props.id}`,
+      url: `http://localhost:3000/pipeline/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -71,12 +73,11 @@ export default function ModalAdd(props) {
             nama_nasabah: res.data.data.nama_nasabah,
             id_pengajuan: res.data.data.id_pengajuan,
             id_progress: res.data.data.id_progress,
+            id_sector: res.data.data.id_sector,
             tgl_RKP_A: toString(res.data.data.tgl_RKP_A),
             tgl_RKP_B: toString(res.data.data.tgl_RKP_B),
-            tgl_cair: toString(res.data.data.tgl_cair),
-            tgl_proyeksi_cair_rpm: toString(
-              res.data.data.tgl_proyeksi_cair_rpm
-            ),
+            nominal_cair: res.data.data.nominal_cair,
+            tgl_proyeksi: toString(res.data.data.tgl_proyeksi),
             id_pegawai: res.data.data.id_pegawai,
             limit: res.data.data.limit,
           };
@@ -96,38 +97,49 @@ export default function ModalAdd(props) {
     console.log(uang, "formatuang");
     let input = {
       nama_nasabah: data.nama_nasabah,
-      id_pengajuan: 3,
+      // id_pengajuan: 3,
+      id_pengajuan: stateField.id_pengajuan,
       tgl_RKP_A: data.tgl_RKP_A,
       tgl_RKP_B: data.tgl_RKP_B,
-      tgl_cair: data.tgl_cair,
+      nominal_cair: data.nominal_cair,
       id_progress: stateField.id_progress,
-      tgl_proyeksi_cair_rpm: data.tgl_proyeksi_cair_rpm,
+      tgl_proyeksi: data.tgl_proyeksi,
       id_pegawai: getIdPegawai,
+      id_sector: stateField.id_sector,
+
       limit: uang,
       status_archive: false,
     };
     console.log(input, "datainout");
+
     axios
-      .post("https://server-pipeline.herokuapp.com/add-pipeline", input, {
+      .post("http://localhost:3000/add-pipeline", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
       })
       .then(function (response) {
-        // props.setOpen(false);
+        props.setOpen(false);
+        props.fetchPipeline();
+
         Swal.fire({
-          position: "top-end",
+          // width: 600,
+          position: "center",
           icon: "success",
-          title: "add user successfully",
+          // widthIcon: "100px",
+          title: "add pipeline successfully",
+          fontSize: "12px",
           confirmButtonText: "Ok",
           // timer: 1500,
-        }).then((result) => {
-          console.log(result, "result");
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            props.fetchPipeline();
-          }
         });
+        // .then((result) => {
+        //   // console.log(result, "result");
+
+        //   /* Read more about isConfirmed, isDenied below */
+        //   if (result.isConfirmed) {
+        //     props.fetchPipeline();
+        //   }
+        // });
       })
       .catch(function (error) {
         // Swal.fire({
@@ -146,30 +158,28 @@ export default function ModalAdd(props) {
       id_pengajuan: stateField.id_pengajuan,
       tgl_RKP_A: data.tgl_RKP_A,
       tgl_RKP_B: data.tgl_RKP_B,
-      tgl_cair: data.tgl_cair,
+      nominal_cair: data.nominal_cair,
       id_progress: stateField.id_progress,
-      tgl_proyeksi_cair_rpm: data.tgl_proyeksi_cair_rpm,
+      tgl_proyeksi: data.tgl_proyeksi,
       id_pegawai: getIdPegawai,
+      id_sector: stateField.id_sector,
       limit: data.limit,
       status_archive: false,
     };
     console.log(input, "datainput");
     axios
-      .put(
-        `https://server-pipeline.herokuapp.com/edit-pipeline/${props.id}`,
-        input,
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      )
+      .put(`http://localhost:3000/edit-pipeline/${props.id}`, input, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      })
       .then(function (response) {
         props.setOpen(false);
+        setStatusSubmit(true);
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "edit user successfully",
+          title: "edit pipeline successfully",
           confirmButtonText: "Ok",
           // timer: 1500,
         }).then((result) => {
@@ -194,7 +204,7 @@ export default function ModalAdd(props) {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pengajuan?page=0&size=1000`,
+      url: `http://localhost:3000/pengajuan?page=0&size=1000`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -225,7 +235,7 @@ export default function ModalAdd(props) {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/progress?page=0&size=1000`,
+      url: `http://localhost:3000/progress?page=0&size=1000`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -251,17 +261,82 @@ export default function ModalAdd(props) {
         });
       });
   };
+
+  const fetchSector = () => {
+    console.log("resmasukfetch");
+    axios({
+      method: "get",
+      url: `http://localhost:3000/sektor?page=0&size=1000`,
+
+      headers: {
+        token: localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        if (res.data.tutorials.length > 0) {
+          setDataSector((prevState) => {
+            return {
+              ...prevState,
+              nodes: res.data.tutorials,
+            };
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e, "error progress");
+
+        Swal.fire({
+          icon: "error",
+          text: e.response.data.message,
+        });
+      });
+  };
   useEffect(() => {
     if (props.statusForm === "edit") {
       getOne();
     }
     fetchPengajuan();
     fetchProgress();
+    fetchSector();
   }, []);
 
   console.log(stateField.id_pengajuan, "idpengajuan");
   console.log(stateField.id_progress, "idprogress");
   console.log(props.statusForm, "status");
+  console.log(dataSector, "datasector");
+
+  var dengan_rupiah = document.getElementById("rupiah");
+  console.log(dengan_rupiah, "dgn");
+  dengan_rupiah?.addEventListener("keyup", function (e) {
+    // tambahkan 'Rp.' pada saat form di ketik
+    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+    dengan_rupiah.value = formatRupiah(this.value, "");
+  });
+  var format_rupiah = document.getElementById("nominal_cair");
+  console.log(format_rupiah, "dgn");
+  format_rupiah?.addEventListener("keyup", function (e) {
+    // tambahkan 'Rp.' pada saat form di ketik
+    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+    format_rupiah.value = formatRupiah(this.value, "");
+  });
+
+  function formatRupiah(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, "").toString(),
+      split = number_string.split(","),
+      sisa = split[0].length % 3,
+      rupiah = split[0].substr(0, sisa),
+      ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+    let separator = "";
+    if (ribuan) {
+      separator = sisa ? "." : "";
+      rupiah += separator + ribuan.join(".");
+    }
+
+    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+    return prefix == undefined ? rupiah : rupiah ? rupiah : "";
+  }
   return (
     <div
       style={{
@@ -320,46 +395,61 @@ export default function ModalAdd(props) {
                       />
                     </FormGroup>
                     <p>{props.statusForm}</p>
-                    {status !== "add" ? (
-                      <FormGroup>
-                        <Label for="exampleSelect">Submission Status</Label>
-                        <Input
-                          id="exampleSelect"
-                          name="id_pengajuan"
-                          type="select"
-                          value={stateField.id_pengajuan}
-                          onBlur={handleBlur}
-                          onChange={(e) => {
-                            console.log(e.target.value, "id_pengajuan");
-                            setStateField((prevState) => {
-                              return {
-                                ...prevState,
-                                id_pengajuan: e.target.value,
-                              };
-                            });
-                          }}
-                        >
-                          <option>Choose Submission Status</option>
-                          {dataPengajuan?.nodes
-                            ?.filter((el) => el.nama_pengajuan !== "BARU")
-                            .map((el) => (
-                              <option value={el.id} key={el.id}>
-                                {el.nama_pengajuan}
-                              </option>
-                            ))}
-                        </Input>
-                      </FormGroup>
-                    ) : null}
+                    {/* {status !== "add" ? ( */}
                     <FormGroup>
+                      <Label for="exampleSelect">Submission Status</Label>
+                      <Input
+                        id="exampleSelect"
+                        name="id_pengajuan"
+                        type="select"
+                        value={stateField.id_pengajuan}
+                        onBlur={handleBlur}
+                        onChange={(e) => {
+                          console.log(e.target.value, "id_pengajuan");
+                          setStateField((prevState) => {
+                            return {
+                              ...prevState,
+                              id_pengajuan: e.target.value,
+                            };
+                          });
+                        }}
+                      >
+                        <option>Choose Submission Status</option>
+                        {dataPengajuan?.nodes
+                          // ?.filter((el) => el.nama_pengajuan !== "BARU")
+                          .map((el) => (
+                            <option value={el.id} key={el.id}>
+                              {el.nama_pengajuan}
+                            </option>
+                          ))}
+                      </Input>
+                    </FormGroup>
+                    {/* ) : null} */}
+                    <FormGroup>
+                      {/* <input type="text" id="rupiah" /> */}
                       <Label for="limit">Limit</Label>
                       <Input
-                        id="limit"
+                        id="rupiah"
                         name="limit"
                         placeholder="please input limit"
                         type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.limit}
+                      />
+                    </FormGroup>
+
+                    <FormGroup>
+                      <Label for="tgl_RKP_B">RKP B</Label>
+                      <Input
+                        format="dd/MM/yyyy"
+                        id="tgl_RKP_B"
+                        name="tgl_RKP_B"
+                        placeholder="please input RKP A"
+                        type="date"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.tgl_RKP_B}
                       />
                     </FormGroup>
                     <FormGroup>
@@ -389,28 +479,15 @@ export default function ModalAdd(props) {
                     </FormGroup>
 
                     <FormGroup>
-                      <Label for="tgl_RKP_B">RKP B</Label>
+                      <Label for="tgl_proyeksi">Proyeksi Date</Label>
                       <Input
-                        format="dd/MM/yyyy"
-                        id="tgl_RKP_B"
-                        name="tgl_RKP_B"
-                        placeholder="please input RKP A"
+                        id="tgl_proyeksi"
+                        name="tgl_proyeksi"
+                        placeholder="please input proyeksi date"
                         type="date"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.tgl_RKP_B}
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="tgl_cair">Cash Down</Label>
-                      <Input
-                        id="tgl_cair"
-                        name="tgl_cair"
-                        placeholder="please input cair"
-                        type="date"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.tgl_cair}
+                        value={values.tgl_proyeksi}
                       />
                     </FormGroup>
                     <FormGroup>
@@ -440,17 +517,41 @@ export default function ModalAdd(props) {
                       </Input>
                     </FormGroup>
                     <FormGroup>
-                      <Label for="tgl_proyeksi_cair_rpm">
-                        Proyeksi Cair RPM
-                      </Label>
+                      <Label for="exampleSelect">Sector</Label>
                       <Input
-                        id="tgl_proyeksi_cair_rpm"
-                        name="tgl_proyeksi_cair_rpm"
-                        placeholder="please input occupation"
-                        type="date"
+                        id="exampleSelect"
+                        name="id_sector"
+                        type="select"
+                        value={stateField.id_sector}
+                        onBlur={handleBlur}
+                        onChange={(e) => {
+                          console.log(e.target.value, "id_progress");
+                          setStateField((prevState) => {
+                            return {
+                              ...prevState,
+                              id_sector: e.target.value,
+                            };
+                          });
+                        }}
+                      >
+                        <option>Choose Sector</option>
+                        {dataSector.nodes.map((el) => (
+                          <option value={el.id} key={el.id}>
+                            {el.nama_sector}
+                          </option>
+                        ))}
+                      </Input>
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="nominal_cair">Nominal Cair</Label>
+                      <Input
+                        id="nominal_cair"
+                        name="nominal_cair"
+                        placeholder="please input nominal cair"
+                        type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.tgl_proyeksi_cair_rpm}
+                        value={values.nominal_cair}
                       />
                     </FormGroup>
                     <div
@@ -461,7 +562,12 @@ export default function ModalAdd(props) {
                         marginTop: "10px",
                       }}
                     >
-                      <Button variant="contained" color="success" type="submit">
+                      <Button
+                        variant="contained"
+                        color="success"
+                        type="submit"
+                        disabled={statusSubmit ? true : false}
+                      >
                         Submit
                       </Button>
                     </div>

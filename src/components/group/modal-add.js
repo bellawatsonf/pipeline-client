@@ -5,18 +5,22 @@ import * as Yup from "yup";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-Yup.addMethod(Yup.array, "unique", function (message, mapper = (a) => a) {
-  return this.test("unique", message, function (list) {
-    return list.length === new Set(list.map(mapper)).size;
-  });
-});
-let validationSchema = Yup.object({
-  group_name: Yup.array()
-    .of(Yup.string())
-    .unique("group name must be unique")
-    .required("group name must be fill"),
+// Yup.addMethod(Yup.array, "unique", function (message, mapper = (a) => a) {
+//   return this.test("unique", message, function (list) {
+//     return list.length === new Set(list.map(mapper)).size;
+//   });
+// });
+// let validationSchema = Yup.object({
+//   group_name: Yup.array()
+//     .of(Yup.string())
+//     // .unique("group name must be unique")
+//     .required("group name must be fill"),
 
-  // .unique("group name must be unique", (a) => a.group_name),
+//   // .unique("group name must be unique", (a) => a.group_name),
+// });
+
+let validationSchema = Yup.object({
+  group_name: Yup.string().required("group name must be fill"),
 });
 export default function ModalAdd(props) {
   console.log(props.dataGroup, "datagrup");
@@ -32,7 +36,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/group/${props.id}`,
+      url: `http://localhost:3000/group/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -58,27 +62,31 @@ export default function ModalAdd(props) {
     let input = {
       nama_group: data.group_name,
     };
+    console.log(input, "input data");
     axios
-      .post("https://server-pipeline.herokuapp.com/add-group", input, {
+      .post("http://localhost:3000/add-group", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
       })
       .then(function (response) {
         props.setOpen(false);
+        props.fetchGroup();
+
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "add group successfully",
           confirmButtonText: "Ok",
           // timer: 1500,
-        }).then((result) => {
-          console.log(result, "result");
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            props.fetchGroup();
-          }
         });
+        // .then((result) => {
+        //   console.log(result, "result");
+        //   /* Read more about isConfirmed, isDenied below */
+        //   if (result.isConfirmed) {
+        //     props.fetchGroup();
+        //   }
+        // });
       })
       .catch(function (error) {
         console.log(error, "eror");
@@ -91,30 +99,29 @@ export default function ModalAdd(props) {
       nama_group: data.group_name,
     };
     axios
-      .put(
-        `https://server-pipeline.herokuapp.com/edit-group/${props.id}`,
-        input,
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      )
+      .put(`http://localhost:3000/edit-group/${props.id}`, input, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      })
       .then(function (response) {
         props.setOpen(false);
+        props.fetchGroup();
+
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "edit group successfully",
           confirmButtonText: "Ok",
           // timer: 1500,
-        }).then((result) => {
-          console.log(result, "result");
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            props.fetchGroup();
-          }
         });
+        // .then((result) => {
+        //   console.log(result, "result");
+        //   /* Read more about isConfirmed, isDenied below */
+        //   if (result.isConfirmed) {
+        //     props.fetchGroup();
+        //   }
+        // });
       })
       .catch(function (error) {
         console.log(error, "eror");
@@ -145,6 +152,7 @@ export default function ModalAdd(props) {
         initialValues={stateField}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
+          console.log("masuk");
           {
             props.statusForm === "add"
               ? prosesSubmit(values)

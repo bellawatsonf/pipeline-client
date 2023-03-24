@@ -43,9 +43,13 @@ import { toString } from "../helper/formatDate";
 import { LoadingScreen } from "../loading";
 import { useRouter } from "next/router";
 import { Formik } from "formik";
+import styleTable from "../tablestyle.module.css";
+import * as XLSX from "xlsx";
+import { useExcelDownloder } from "react-xls";
 // import { Loading } from "../loading";
 
 export default function PipelineComponent() {
+  const { ExcelDownloder, Type } = useExcelDownloder();
   let initialState = {
     page: 0,
     size: 10,
@@ -62,6 +66,7 @@ export default function PipelineComponent() {
   const [isLoading, setLoading] = useState(false);
   let router = useRouter();
   const [search, setSearch] = useState("");
+  const [newFormat, setNew] = useState();
   let levelUser = "";
   if (typeof window !== "undefined") {
     // Perform localStorage action
@@ -77,16 +82,29 @@ export default function PipelineComponent() {
   const handleClose = (params, x) => {
     setOpen(false);
   };
+  // let formatDataBaru = [];
   // const materialTheme = getTheme(DEFAULT_OPTIONS);
-  const theme = useTheme([
-    getTheme(),
-    {
-      Table: `
-            --data-table-library_grid-template-columns:  30% repeat(2, minmax(0, 1fr)) 25% 100px;
-          `,
-      HeaderRow: `th css-1nayq86-HEADER_CELL_CONTAINER_STYLE-HeaderCell: blue`,
-    },
-  ]);
+  const theme = useTheme({
+    Table: `
+    background:#35363b;
+    color:white !important;
+    `,
+
+    BaseRow: `
+    font-size: 14px;
+    color:white
+  `,
+    HeaderRow: `
+    background-color: #eaf5fd;
+  `,
+
+    Cell: `background:white !important;
+    color: black !important
+    `,
+    // Cell(hover): `background:grey !important;
+    // color: white !important
+    // `,
+  });
 
   const sort = useSort(
     stateField,
@@ -110,8 +128,8 @@ export default function PipelineComponent() {
           array.sort((a, b) => a.tgl_RKP_B.localeCompare(b.tgl_RKP_B)),
         tgl_RKP_A: (array) =>
           array.sort((a, b) => a.tgl_RKP_A.localeCompare(b.tgl_RKP_A)),
-        tgl_cair: (array) =>
-          array.sort((a, b) => a.tgl_cair.localeCompare(b.tgl_cair)),
+        nominal_cair: (array) =>
+          array.sort((a, b) => a.nominal_cair.localeCompare(b.nominal_cair)),
         tgl_proyeksi_cair_rpm: (array) =>
           array.sort((a, b) =>
             a.tgl_proyeksi_cair_rpm.localeCompare(b.tgl_proyeksi_cair_rpm)
@@ -212,16 +230,16 @@ export default function PipelineComponent() {
     console.log(params, "resmasukfetch");
     let link = "";
     if (params.search !== undefined) {
-      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100`;
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
     }
 
     let linkAdmin = "";
     if (params.search !== undefined) {
-      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`;
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
     }
     setLoading(true);
     axios({
@@ -241,6 +259,26 @@ export default function PipelineComponent() {
           };
         });
         setLoading(false);
+        if (stateField.nodes.length > 0) {
+          let formatDataBaru = [];
+          console.log("formatttt");
+          stateField.nodes.map((el) => {
+            formatDataBaru.push({
+              "Nama Nasabah": el.nama_nasabah,
+              Sector: el.Sector.nama_sector,
+              "Status Pengajuan": el.StatusPengajuan.nama_pengajuan,
+              Progress: el.Progress.nama_progress,
+              "Nama User": el.Pegawai.nama_pegawai,
+              Limit: el.limit,
+              "RKP B": el.tgl_RKP_B,
+              "RKP A": el.tgl_RKP_A,
+              "Nominal Cair": el.nominal_cair,
+              "Created Date": el.createdAt,
+            });
+          });
+          console.log(formatDataBaru, "dtformat");
+          setNew(formatDataBaru);
+        }
       })
       .catch((e) => {
         console.log(e, "error pipeline");
@@ -251,7 +289,6 @@ export default function PipelineComponent() {
         // });
       });
   };
-
   function prosesDelete(id) {
     if (levelUser === "user") {
       console.log("masuk leveluser");
@@ -259,7 +296,7 @@ export default function PipelineComponent() {
       setLoading(true);
       axios({
         method: "patch",
-        url: `https://server-pipeline.herokuapp.com/delete-pipeline/${id}`,
+        url: `http://localhost:3000/delete-pipeline/${id}`,
         data: input,
         headers: {
           token: localStorage.getItem("token"),
@@ -268,9 +305,12 @@ export default function PipelineComponent() {
         .then((res) => {
           console.log(res, "response");
           setLoading(false);
-
+          // fetchPipeline({
+          //   size: stateField.size,
+          //   page: pagination.fns.onSetPage(1),
+          // });
           Swal.fire({
-            position: "top-end",
+            position: "center",
             icon: "success",
             title: "delete pipeline successfully",
             confirmButtonText: "Ok",
@@ -298,17 +338,20 @@ export default function PipelineComponent() {
       setLoading(true);
       axios({
         method: "delete",
-        url: `https://server-pipeline.herokuapp.com/delete-pipelineadmin/${id}`,
+        url: `http://localhost:3000/delete-pipelineadmin/${id}`,
         headers: {
           token: localStorage.getItem("token"),
         },
       })
         .then((res) => {
           console.log(res, "response");
-
+          // fetchPipeline({
+          //   size: stateField.size,
+          //   page: pagination.fns.onSetPage(1),
+          // });
           setLoading(false);
           Swal.fire({
-            position: "top-end",
+            position: "center",
             icon: "success",
             title: "delete pipeline successfully",
             confirmButtonText: "Ok",
@@ -338,13 +381,25 @@ export default function PipelineComponent() {
       page: stateField.page,
       search: stateField.search,
     });
+    // fetchPipeline();
   }, []);
 
   if (isLoading) {
     return <LoadingScreen />;
   }
 
+  const downloadExcel = (data) => {
+    console.log(data, "dataexel");
+    const worksheet = XLSX.utils.json_to_sheet(newFormat);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+    //XLSX.write(workbook, { bookType: "xlsx", type: "binary" });
+    XLSX.writeFile(workbook, "DataSheet.xlsx");
+  };
+
   console.log(stateField.nodes, "page");
+
   return (
     <>
       <div
@@ -361,8 +416,19 @@ export default function PipelineComponent() {
         >
           Add Pipeline <AddIcon sx={{ paddingLeft: "5px" }} />
         </Button>
+        <button onClick={(e) => downloadExcel(e)}>Download As Excel</button>
+        {/* <ExcelDownloder
+          data={stateField}
+          filename={"Pipeline"}
+          type={Type.Button} // or type={'button'}
+        >
+          Download the Spreadsheet
+        </ExcelDownloder> */}
       </div>
-      <div className="container bg-white">
+      <div
+        className="bg-white"
+        style={{ paddingLeft: "20px", paddingRight: "20px" }}
+      >
         <TextField
           id="outlined-basic"
           label="search nasabah name"
@@ -376,7 +442,7 @@ export default function PipelineComponent() {
 
         <Table
           data={stateField}
-          theme={"theme"}
+          theme={theme}
           sort={sort}
           pagination={pagination}
         >
@@ -385,21 +451,27 @@ export default function PipelineComponent() {
               <Header>
                 <HeaderRow>
                   {/* <HeaderCell>Number</HeaderCell> */}
-                  <HeaderCellSort sortKey="nama_nasabah">
+                  <HeaderCellSort
+                    sortKey="nama_nasabah"
+                    className={`${styleTable.headerCell}`}
+                  >
                     Customer Name
                   </HeaderCellSort>
                   <HeaderCellSort sortKey="limit">Limit</HeaderCellSort>
                   <HeaderCellSort sortKey="id_pengajuan">
                     Submission Status
                   </HeaderCellSort>
+                  <HeaderCellSort sortKey="id_pengajuan">Sector</HeaderCellSort>
                   <HeaderCellSort sortKey="tgl_RKP_B">RKP B</HeaderCellSort>
                   <HeaderCellSort sortKEy="tgl_RKP_A">RKP A</HeaderCellSort>
-                  <HeaderCellSort sortKey="tgl_cair">Cair</HeaderCellSort>
+                  <HeaderCellSort sortKey="nominal_cair">
+                    Nominal Cair
+                  </HeaderCellSort>
                   <HeaderCellSort sortKey="id_progress">
                     Current Progress
                   </HeaderCellSort>
-                  <HeaderCellSort sortKey="tgl_proyeksi_cair_rpm">
-                    RpM Date
+                  <HeaderCellSort sortKey="tgl_proyeksi">
+                    Proyeksi Date
                   </HeaderCellSort>
                   {levelUser === "admin" || levelUser === "super admin" ? (
                     <HeaderCellSort sortKey="id_pegawai">User</HeaderCellSort>
@@ -419,17 +491,21 @@ export default function PipelineComponent() {
                         <Cell>{item.nama_nasabah}</Cell>
                         <Cell>{item.limit}</Cell>
                         <Cell>{item.StatusPengajuan.nama_pengajuan}</Cell>
+                        <Cell>{item.Sector.nama_sector}</Cell>
+
                         <Cell>{toString(item.tgl_RKP_B)}</Cell>
                         <Cell>{toString(item.tgl_RKP_A)}</Cell>
-                        <Cell>{toString(item.tgl_cair)}</Cell>
+                        <Cell>{item.nominal_cair}</Cell>
                         <Cell>{item.Progress.nama_progress}</Cell>
-                        <Cell>{toString(item.tgl_proyeksi_cair_rpm)}</Cell>
+                        <Cell>{toString(item.tgl_proyeksi)}</Cell>
 
                         <Cell>
                           <BorderColorIcon
+                            style={{ cursor: "pointer" }}
                             onClick={() => handleClickOpen("edit", item.id)}
                           />
                           <DeleteOutlineIcon
+                            style={{ cursor: "pointer" }}
                             onClick={() => prosesDelete(item.id)}
                           />
                         </Cell>
@@ -444,11 +520,12 @@ export default function PipelineComponent() {
                       <Cell>{item.nama_nasabah}</Cell>
                       <Cell>{item.limit}</Cell>
                       <Cell>{item.StatusPengajuan.nama_pengajuan}</Cell>
-                      <Cell>{item.tgl_RKP_B}</Cell>
-                      <Cell>{item.tgl_RKP_A}</Cell>
-                      <Cell>{item.tgl_cair}</Cell>
+                      <Cell>{item.Sector.nama_sector}</Cell>
+                      <Cell>{toString(item.tgl_RKP_B)}</Cell>
+                      <Cell>{toString(item.tgl_RKP_A)}</Cell>
+                      <Cell>{item.nominal_cair}</Cell>
                       <Cell>{item.Progress.nama_progress}</Cell>
-                      <Cell>{item.tgl_proyeksi_cair_rpm}</Cell>
+                      <Cell>{toString(item.tgl_proyeksi)}</Cell>
                       <Cell>{item.Pegawai.nama_pegawai}</Cell>
 
                       <Cell>
@@ -505,7 +582,7 @@ export default function PipelineComponent() {
                   fontWeight:
                     pagination.state.page === index ? "bold" : "normal",
                   margin: "4px 4px 4px 4px",
-                  background: "#2e7d32",
+                  background: "#35363b",
                   justifyContent: "center",
                   width: "40px",
                   borderRadius: "20px",
@@ -557,6 +634,8 @@ export default function PipelineComponent() {
               setOpen={setOpen}
               statusForm={statusForm}
               id={id}
+              setLoading={setLoading}
+              isLoading={isLoading}
             />
           </DialogContent>
         </Dialog>

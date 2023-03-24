@@ -1,4 +1,6 @@
+import axios from "axios";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import user1 from "../../assets/images/users/user1.jpg";
 import user2 from "../../assets/images/users/user2.jpg";
@@ -55,44 +57,84 @@ const tableData = [
 ];
 
 const ProjectTables = () => {
+  let initialState = {
+    page: 0,
+    size: 10,
+    totalPage: 0,
+    nodes: [],
+  };
+  const [stateField, setStateField] = useState(initialState);
+
+  const fetchPipeline = (params) => {
+    axios({
+      method: "get",
+      url: `http://localhost:3000/pipeline-dashboard?page=${params.page}&size=100`,
+      // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
+      headers: {
+        token: localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.listData, "respon");
+        setStateField((prevState) => {
+          return {
+            ...prevState,
+            nodes: res.data.listData,
+          };
+        });
+      })
+      .catch((e) => {
+        console.log(e, "error pipeline");
+
+        // Swal.fire({
+        //   icon: "error",
+        //   text: e.response.data.message,
+        // });
+      });
+  };
+
+  useEffect(() => {
+    fetchPipeline({
+      size: stateField.size,
+      page: stateField.page,
+    });
+    // fetchPipeline();
+  }, []);
   return (
     <Card>
       <CardBody>
-        <CardTitle tag="h5">Project Listing</CardTitle>
+        <CardTitle tag="h5">User Listing</CardTitle>
         <CardSubtitle className="mb-2 text-muted" tag="h6">
-          Overview of the projects
+          Overview of the user
         </CardSubtitle>
         <div className="table-responsive">
           <Table className="text-nowrap mt-3 align-middle" borderless>
             <thead>
               <tr>
-                <th>Team Lead</th>
-                <th>Project</th>
+                <th>User</th>
+                <th>Group</th>
 
-                <th>Status</th>
-                <th>Weeks</th>
-                <th>Budget</th>
+                <th>Total Nominal Cair</th>
               </tr>
             </thead>
             <tbody>
-              {tableData.map((tdata, index) => (
+              {stateField.nodes.map((tdata, index) => (
                 <tr key={index} className="border-top">
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <Image
-                        src={tdata.avatar}
+                        src={user1}
                         className="rounded-circle"
                         alt="avatar"
                         width="45"
                         height="45"
                       />
                       <div className="ms-3">
-                        <h6 className="mb-0">{tdata.name}</h6>
-                        <span className="text-muted">{tdata.email}</span>
+                        <h6 className="mb-0">{tdata.Pegawai.nama_pegawai}</h6>
                       </div>
                     </div>
                   </td>
-                  <td>{tdata.project}</td>
+                  <td>{tdata.Pegawai.Group.nama_group}</td>
                   <td>
                     {tdata.status === "pending" ? (
                       <span className="p-2 bg-danger rounded-circle d-inline-block ms-3" />
@@ -102,8 +144,6 @@ const ProjectTables = () => {
                       <span className="p-2 bg-success rounded-circle d-inline-block ms-3" />
                     )}
                   </td>
-                  <td>{tdata.weeks}</td>
-                  <td>{tdata.budget}</td>
                 </tr>
               ))}
             </tbody>

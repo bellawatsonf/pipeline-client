@@ -9,6 +9,8 @@ import bg1 from "../../assets/images/bg/bg1.jpg";
 import bg2 from "../../assets/images/bg/bg2.jpg";
 import bg3 from "../../assets/images/bg/bg3.jpg";
 import bg4 from "../../assets/images/bg/bg4.jpg";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const BlogData = [
   {
@@ -46,6 +48,69 @@ const BlogData = [
 ];
 
 export default function Home() {
+  let initialState = {
+    page: 0,
+    size: 10,
+    totalPage: 0,
+    nodes: [],
+  };
+  const [stateField, setStateField] = useState(initialState);
+
+  let levelUser = "";
+  if (typeof window !== "undefined") {
+    // Perform localStorage action
+    levelUser = localStorage.getItem("level");
+  }
+  const fetchPipeline = (params) => {
+    console.log(params, "resmasukfetch");
+    let link = "";
+    if (params.search !== undefined) {
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+    } else {
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
+    }
+
+    let linkAdmin = "";
+    if (params.search !== undefined) {
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+    } else {
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
+    }
+
+    axios({
+      method: "get",
+      url: `http://localhost:3000/pipeline?page=${params.page}&size=100`,
+      // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
+      headers: {
+        token: localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.listData, "respon");
+        setStateField((prevState) => {
+          return {
+            ...prevState,
+            nodes: res.data.listData,
+          };
+        });
+      })
+      .catch((e) => {
+        console.log(e, "error pipeline");
+
+        // Swal.fire({
+        //   icon: "error",
+        //   text: e.response.data.message,
+        // });
+      });
+  };
+
+  useEffect(() => {
+    fetchPipeline({
+      size: stateField.size,
+      page: stateField.page,
+    });
+    // fetchPipeline();
+  }, []);
   return (
     <div>
       <Head>
@@ -96,10 +161,10 @@ export default function Home() {
         {/***Sales & Feed***/}
         <Row>
           <Col sm="12" lg="6" xl="7" xxl="8">
-            <SalesChart />
+            <SalesChart stateField={stateField} />
           </Col>
           <Col sm="12" lg="6" xl="5" xxl="4">
-            <Feeds />
+            <Feeds stateField={stateField} />
           </Col>
         </Row>
         {/***Table ***/}

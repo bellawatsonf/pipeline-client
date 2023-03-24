@@ -3,16 +3,18 @@ import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const SalesChart = () => {
+const SalesChart = (props) => {
+  console.log(props.stateField.nodes, "dataprops sales");
+  
+  let datanominal = [];
+  props.stateField.nodes.map((el) => {
+    datanominal.push(el.nominal_cair);
+  });
   const chartoptions = {
     series: [
       {
-        name: "Iphone 13",
-        data: [0, 31, 40, 28, 51, 42, 109, 100],
-      },
-      {
-        name: "Oneplue 9",
-        data: [0, 11, 32, 45, 32, 34, 52, 41],
+        name: "Nominal Cair",
+        data: datanominal,
       },
     ],
     options: {

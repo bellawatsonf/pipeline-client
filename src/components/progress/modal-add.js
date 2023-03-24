@@ -6,18 +6,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 export default function ModalAdd(props) {
-  Yup.addMethod(Yup.array, "unique", function (message, mapper = (a) => a) {
-    console.log(message, "pesaneror");
-    return this.test("unique", message, function (list) {
-      console.log(list, "pesanerorlist");
-      // return list.length === new Set(list.map(mapper)).size;
-    });
-  });
-  let validationSchema = Yup.object().shape({
-    progress_name: Yup.array()
-      .of(Yup.string())
-      .unique("email must be unique", props.dataProgress)
-      .required("progress name must be fill"),
+  let validationSchema = Yup.object({
+    progress_name: Yup.string().required("progress name must be fill"),
   });
   console.log(props.dataProgress, "dataprogress");
   let initialValue = {
@@ -32,7 +22,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/progress/${props.id}`,
+      url: `http://localhost:3000/progress/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -60,26 +50,28 @@ export default function ModalAdd(props) {
       nama_progress: data.progress_name,
     };
     axios
-      .post("https://server-pipeline.herokuapp.com/add-progress", input, {
+      .post("http://localhost:3000/add-progress", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
       })
       .then(function (response) {
         props.setOpen(false);
+        props.fetchProgress();
         Swal.fire({
           position: "top-end",
           icon: "success",
           title: "add progress successfully",
           confirmButtonText: "Ok",
           // timer: 1500,
-        }).then((result) => {
-          console.log(result, "result");
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            props.fetchProgress();
-          }
         });
+        // .then((result) => {
+        //   console.log(result, "result");
+        //   /* Read more about isConfirmed, isDenied below */
+        //   if (result.isConfirmed) {
+        //     props.fetchProgress();
+        //   }
+        // });
       })
       .catch(function (error) {
         console.log(error, "eror");
@@ -92,30 +84,28 @@ export default function ModalAdd(props) {
       nama_progress: data.progress_name,
     };
     axios
-      .put(
-        `https://server-pipeline.herokuapp.com/edit-progress/${props.id}`,
-        input,
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      )
+      .put(`http://localhost:3000/edit-progress/${props.id}`, input, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      })
       .then(function (response) {
         props.setOpen(false);
+        props.fetchProgress();
         Swal.fire({
           position: "top-end",
           icon: "success",
           title: "edit progress successfully",
           confirmButtonText: "Ok",
           // timer: 1500,
-        }).then((result) => {
-          console.log(result, "result");
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            props.fetchProgress();
-          }
         });
+        // .then((result) => {
+        //   console.log(result, "result");
+        //   /* Read more about isConfirmed, isDenied below */
+        //   if (result.isConfirmed) {
+        //     props.fetchProgress();
+        //   }
+        // });
       })
       .catch(function (error) {
         console.log(error, "eror");

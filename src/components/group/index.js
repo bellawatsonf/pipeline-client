@@ -61,15 +61,43 @@ export default function GroupComponent() {
     setOpen(false);
   };
   // const materialTheme = getTheme(DEFAULT_OPTIONS);
-  const theme = useTheme([
-    getTheme(),
-    {
-      Table: `
-            --data-table-library_grid-template-columns:  30% repeat(2, minmax(0, 1fr)) 25% 100px;
-          `,
-      HeaderRow: `th css-1nayq86-HEADER_CELL_CONTAINER_STYLE-HeaderCell: blue`,
-    },
-  ]);
+  const theme = useTheme({
+    Table: `
+    background:#35363b;
+    color:white !important;
+
+    `,
+
+    BaseRow: `
+    font-size: 14px;
+    color:white;
+    text-align:center
+
+ 
+  `,
+    HeaderRow: `
+    background-color: #eaf5fd;
+     text-align:center
+   
+    
+  `,
+    Header: `
+    text-align:center !important
+    
+
+    `,
+    HeaderCellSort: `
+    display:flex;
+    justify-content:center
+    `,
+
+    Cell: `background:white !important;
+    color: black !important
+    `,
+    // Cell(hover): `background:grey !important;
+    // color: white !important
+    // `,
+  });
 
   const sort = useSort(
     stateField,
@@ -109,7 +137,7 @@ export default function GroupComponent() {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/group?page=${params.page}&size=100`,
+      url: `http://localhost:3000/group?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -135,7 +163,7 @@ export default function GroupComponent() {
   function prosesDelete(id) {
     axios({
       method: "delete",
-      url: `https://server-pipeline.herokuapp.com/delete-group/${id}`,
+      url: `http://localhost:3000/delete-group/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -143,7 +171,7 @@ export default function GroupComponent() {
       .then((res) => {
         console.log(res, "response");
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "delete group successfully",
           confirmButtonText: "Ok",
@@ -152,7 +180,7 @@ export default function GroupComponent() {
           console.log(result, "result");
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
-            fetchGroup();
+            fetchGroup({ page: 1, size: 100 });
           }
         });
       })
@@ -189,10 +217,10 @@ export default function GroupComponent() {
           Add Group <AddIcon sx={{ paddingLeft: "5px" }} />
         </Button>
       </div>
-      <div className="container bg-white">
+      <div className=" bg-white">
         <Table
           data={stateField}
-          theme={"theme"}
+          theme={theme}
           sort={sort}
           pagination={pagination}
         >
@@ -200,7 +228,7 @@ export default function GroupComponent() {
             <>
               <Header>
                 <HeaderRow>
-                  <HeaderCell>Number</HeaderCell>
+                  {/* <HeaderCell>Number</HeaderCell> */}
                   <HeaderCellSort sortKey="nama_group">
                     Group Name
                   </HeaderCellSort>
@@ -211,16 +239,25 @@ export default function GroupComponent() {
               <Body>
                 {tableList?.map((item, index) => (
                   <Row key={index}>
-                    <Cell>{no++}</Cell>
+                    {/* <Cell>{index}</Cell> */}
                     <Cell>{item.nama_group}</Cell>
 
                     <Cell>
-                      <BorderColorIcon
-                        onClick={() => handleClickOpen("edit", item.id)}
-                      />
-                      <DeleteOutlineIcon
-                        onClick={() => prosesDelete(item.id)}
-                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        <BorderColorIcon
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleClickOpen("edit", item.id)}
+                        />
+                        <DeleteOutlineIcon
+                          style={{ cursor: "pointer" }}
+                          onClick={() => prosesDelete(item.id)}
+                        />
+                      </div>
                     </Cell>
                   </Row>
                 ))}
@@ -247,30 +284,43 @@ export default function GroupComponent() {
             }}
           >
             <ArrowBackIosNewIcon
-              sx={{ marginTop: "10px", marginRight: "10px" }}
+              sx={{
+                marginTop: "8px",
+                marginRight: "5px",
+                fontSize: "17px",
+                fontWeight: "bold",
+              }}
             />
             {pagination.state.getPages(stateField.nodes).map((_, index) => (
-              <Button
+              <div
                 variant="contained"
                 color="success"
                 key={index}
                 type="button"
-                sx={{
+                style={{
                   fontWeight:
                     pagination.state.page === index ? "bold" : "normal",
-                  margin: "2px",
-
+                  margin: "4px 4px 4px 4px",
+                  background: "#35363b",
                   justifyContent: "center",
-                  borderRadius: "40px",
+                  width: "40px",
+                  borderRadius: "20px",
+                  textAlign: "center",
+                  color: "white",
                 }}
                 onClick={() => pagination.fns.onSetPage(index)}
               >
                 {index + 1}
-              </Button>
+              </div>
             ))}
             {/* <NavigateNextIcon sx={{ marginTop: "10px", marginLeft: "10px" }} /> */}
             <ArrowForwardIosIcon
-              sx={{ marginTop: "10px", marginLeft: "10px" }}
+              sx={{
+                marginTop: "8px",
+                marginLeft: "5px",
+                fontSize: "17px",
+                fontWeight: "bold",
+              }}
             />
           </div>
           {/* </span> */}
@@ -295,7 +345,9 @@ export default function GroupComponent() {
               {statusForm === "add" ? "Form Add Group" : "Form Edit Group"}
             </Typography>
             <ModalAdd
-              fetchGroup={() => fetchGroup()}
+              fetchGroup={() =>
+                fetchGroup({ size: stateField.size, page: stateField.page })
+              }
               setOpen={setOpen}
               statusForm={statusForm}
               id={id}

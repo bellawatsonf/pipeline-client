@@ -34,7 +34,7 @@ const navigation = [
     level: ["admin", "super admin"],
   },
   {
-    title: "Group",
+    title: "Group/Divisi",
     href: "/group-user",
     icon: "bi bi-hdd-stack",
     level: ["admin", "super admin"],

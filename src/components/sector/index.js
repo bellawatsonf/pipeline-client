@@ -70,15 +70,27 @@ export default function SectorComponent() {
     setOpen(false);
   };
   // const materialTheme = getTheme(DEFAULT_OPTIONS);
-  const theme = useTheme([
-    getTheme(),
-    {
-      Table: `
-            --data-table-library_grid-template-columns:  30% repeat(2, minmax(0, 1fr)) 25% 100px;
-          `,
-      HeaderRow: `th css-1nayq86-HEADER_CELL_CONTAINER_STYLE-HeaderCell: blue`,
-    },
-  ]);
+  const theme = useTheme({
+    Table: `
+    background:#35363b;
+    color:white !important;
+    `,
+
+    BaseRow: `
+    font-size: 14px;
+    color:white
+  `,
+    HeaderRow: `
+    background-color: #eaf5fd;
+  `,
+
+    Cell: `background:white !important;
+    color: black !important
+    `,
+    // Cell(hover): `background:grey !important;
+    // color: white !important
+    // `,
+  });
 
   const sort = useSort(
     stateField,
@@ -119,7 +131,7 @@ export default function SectorComponent() {
     setLoading(true);
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/sektor?page=${params.page}&size=100`,
+      url: `http://localhost:3000/sektor?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -153,7 +165,7 @@ export default function SectorComponent() {
     // setLoading(true);
     axios({
       method: "delete",
-      url: `https://server-pipeline.herokuapp.com/delete-sektor/${id}`,
+      url: `http://localhost:3000/delete-sektor/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -209,10 +221,13 @@ export default function SectorComponent() {
           Add Sector <AddIcon sx={{ paddingLeft: "5px" }} />
         </Button>
       </div>
-      <div className="container bg-white">
+      <div
+        className="bg-white"
+        // style={{ paddingLeft: "20px", paddingRight: "20px" }}
+      >
         <Table
           data={stateField}
-          theme={"theme"}
+          theme={theme}
           sort={sort}
           pagination={pagination}
         >
@@ -267,30 +282,43 @@ export default function SectorComponent() {
             }}
           >
             <ArrowBackIosNewIcon
-              sx={{ marginTop: "10px", marginRight: "10px" }}
+              sx={{
+                marginTop: "8px",
+                marginRight: "5px",
+                fontSize: "17px",
+                fontWeight: "bold",
+              }}
             />
             {pagination.state.getPages(stateField.nodes).map((_, index) => (
-              <Button
+              <div
                 variant="contained"
                 color="success"
                 key={index}
                 type="button"
-                sx={{
+                style={{
                   fontWeight:
                     pagination.state.page === index ? "bold" : "normal",
-                  margin: "2px",
-
+                  margin: "4px 4px 4px 4px",
+                  background: "#35363b",
                   justifyContent: "center",
-                  borderRadius: "40px",
+                  width: "40px",
+                  borderRadius: "20px",
+                  textAlign: "center",
+                  color: "white",
                 }}
                 onClick={() => pagination.fns.onSetPage(index)}
               >
                 {index + 1}
-              </Button>
+              </div>
             ))}
             {/* <NavigateNextIcon sx={{ marginTop: "10px", marginLeft: "10px" }} /> */}
             <ArrowForwardIosIcon
-              sx={{ marginTop: "10px", marginLeft: "10px" }}
+              sx={{
+                marginTop: "8px",
+                marginLeft: "5px",
+                fontSize: "17px",
+                fontWeight: "bold",
+              }}
             />
           </div>
           {/* </span> */}
