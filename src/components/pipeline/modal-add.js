@@ -60,7 +60,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pipeline/${props.id}`,
+      url: `http://localhost:3000/pipeline/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -113,7 +113,7 @@ export default function ModalAdd(props) {
     console.log(input, "datainout");
 
     axios
-      .post("https://server-pipeline.herokuapp.com/add-pipeline", input, {
+      .post("http://localhost:3000/add-pipeline", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -167,44 +167,44 @@ export default function ModalAdd(props) {
       status_archive: false,
     };
     console.log(input, "datainput");
-    axios;
-    // .put(`https://server-pipeline.herokuapp.com/edit-pipeline/${props.id}`, input, {
-    //   headers: {
-    //     token: localStorage.getItem("token"),
-    //   },
-    // })
-    // .then(function (response) {
-    //   props.setOpen(false);
-    //   setStatusSubmit(true);
-    //   Swal.fire({
-    //     position: "top-end",
-    //     icon: "success",
-    //     title: "edit pipeline successfully",
-    //     confirmButtonText: "Ok",
-    //     // timer: 1500,
-    //   }).then((result) => {
-    //     console.log(result, "result");
-    //     /* Read more about isConfirmed, isDenied below */
-    //     if (result.isConfirmed) {
-    //       props.fetchPipeline();
-    //     }
-    //   });
-    // })
-    // .catch(function (error) {
-    //   console.log(error, "eror");
-    //   Swal.fire({
-    //     icon: "error",
-    //     text: e.response.data.message,
-    //   });
-    // });
-    // router.refresh();
+    axios
+      .put(`http://localhost:3000/edit-pipeline/${props.id}`, input, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      })
+      .then(function (response) {
+        props.setOpen(false);
+        setStatusSubmit(true);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "edit pipeline successfully",
+          confirmButtonText: "Ok",
+          // timer: 1500,
+        }).then((result) => {
+          console.log(result, "result");
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            props.fetchPipeline();
+          }
+        });
+      })
+      .catch(function (error) {
+        console.log(error, "eror");
+        Swal.fire({
+          icon: "error",
+          text: e.response.data.message,
+        });
+      });
+    router.refresh();
   }
 
   const fetchPengajuan = () => {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pengajuan?page=0&size=1000`,
+      url: `http://localhost:3000/pengajuan?page=0&size=1000`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -235,7 +235,7 @@ export default function ModalAdd(props) {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/progress?page=0&size=1000`,
+      url: `http://localhost:3000/progress?page=0&size=1000`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -266,7 +266,7 @@ export default function ModalAdd(props) {
     console.log("resmasukfetch");
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/sektor?page=0&size=1000`,
+      url: `http://localhost:3000/sektor?page=0&size=1000`,
 
       headers: {
         token: localStorage.getItem("token"),
