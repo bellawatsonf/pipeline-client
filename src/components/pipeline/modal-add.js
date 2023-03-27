@@ -76,10 +76,10 @@ export default function ModalAdd(props) {
             id_sector: res.data.data.id_sector,
             tgl_RKP_A: toString(res.data.data.tgl_RKP_A),
             tgl_RKP_B: toString(res.data.data.tgl_RKP_B),
-            nominal_cair: res.data.data.nominal_cair,
+            nominal_cair: FormatRupiah(res.data.data.nominal_cair).toString(),
             tgl_proyeksi: toString(res.data.data.tgl_proyeksi),
             id_pegawai: res.data.data.id_pegawai,
-            limit: res.data.data.limit,
+            limit: FormatRupiah(res.data.data.limit).toString(),
           };
         });
       })
@@ -93,15 +93,16 @@ export default function ModalAdd(props) {
   }
   function prosesSubmit(data) {
     console.log(data, "masuk");
-    let uang = FormatRupiah(data.limit);
-    console.log(uang, "formatuang");
+    let uang = data.limit.split(".").join("");
+    let nominalCair = data.nominal_cair.split(".").join("");
+    console.log(nominalCair, "formatuang");
     let input = {
       nama_nasabah: data.nama_nasabah,
       // id_pengajuan: 3,
       id_pengajuan: stateField.id_pengajuan,
       tgl_RKP_A: data.tgl_RKP_A,
       tgl_RKP_B: data.tgl_RKP_B,
-      nominal_cair: data.nominal_cair,
+      nominal_cair: nominalCair,
       id_progress: stateField.id_progress,
       tgl_proyeksi: data.tgl_proyeksi,
       id_pegawai: getIdPegawai,
@@ -153,17 +154,20 @@ export default function ModalAdd(props) {
 
   function prosesEditSubmit(data) {
     console.log(data, "masuk");
+    let uang = data.limit.split(".").join("");
+
+    let nominalCair = data.nominal_cair.split(".").join("");
     let input = {
       nama_nasabah: data.nama_nasabah,
       id_pengajuan: stateField.id_pengajuan,
       tgl_RKP_A: data.tgl_RKP_A,
       tgl_RKP_B: data.tgl_RKP_B,
-      nominal_cair: data.nominal_cair,
+      nominal_cair: nominalCair,
       id_progress: stateField.id_progress,
       tgl_proyeksi: data.tgl_proyeksi,
       id_pegawai: getIdPegawai,
       id_sector: stateField.id_sector,
-      limit: data.limit,
+      limit: uang,
       status_archive: false,
     };
     console.log(input, "datainput");
@@ -180,19 +184,21 @@ export default function ModalAdd(props) {
       .then(function (response) {
         props.setOpen(false);
         setStatusSubmit(true);
+        props.fetchPipeline();
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "edit pipeline successfully",
           confirmButtonText: "Ok",
           // timer: 1500,
-        }).then((result) => {
-          console.log(result, "result");
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            props.fetchPipeline();
-          }
         });
+        // .then((result) => {
+        //   console.log(result, "result");
+        //   /* Read more about isConfirmed, isDenied below */
+        //   if (result.isConfirmed) {
+        //     props.fetchPipeline();
+        //   }
+        // });
       })
       .catch(function (error) {
         console.log(error, "eror");
@@ -309,37 +315,36 @@ export default function ModalAdd(props) {
   console.log(props.statusForm, "status");
   console.log(dataSector, "datasector");
 
-  var dengan_rupiah = document.getElementById("rupiah");
-  console.log(dengan_rupiah, "dgn");
-  dengan_rupiah?.addEventListener("keyup", function (e) {
-    // tambahkan 'Rp.' pada saat form di ketik
-    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-    dengan_rupiah.value = formatRupiah(this.value, "");
+  var tanpa_rupiah = document.getElementById("rupiah");
+  console.log(tanpa_rupiah, "tanpa rupiah");
+
+  tanpa_rupiah?.addEventListener("keyup", function (e) {
+    tanpa_rupiah.value = formatRupiah(this.value);
   });
+
   var format_rupiah = document.getElementById("nominal_cair");
   console.log(format_rupiah, "dgn");
   format_rupiah?.addEventListener("keyup", function (e) {
     // tambahkan 'Rp.' pada saat form di ketik
     // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-    format_rupiah.value = formatRupiah(this.value, "");
+    format_rupiah.value = formatRupiah(this.value);
   });
-
   function formatRupiah(angka, prefix) {
+    console.log(angka, prefix, "angkaprefix");
     var number_string = angka.replace(/[^,\d]/g, "").toString(),
       split = number_string.split(","),
       sisa = split[0].length % 3,
       rupiah = split[0].substr(0, sisa),
       ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-    let separator = "";
+    let separator;
     if (ribuan) {
       separator = sisa ? "." : "";
+      console.log(separator, "separator");
       rupiah += separator + ribuan.join(".");
     }
 
     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-    return prefix == undefined ? rupiah : rupiah ? rupiah : "";
+    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
   }
   return (
     <div
@@ -433,12 +438,12 @@ export default function ModalAdd(props) {
                       {/* <input type="text" id="rupiah" /> */}
                       <Label for="limit">Limit</Label>
                       <Input
-                        // id="rupiah"
+                        id="rupiah"
                         name="limit"
                         placeholder="please input limit"
                         type="text"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                         value={values.limit}
                       />
                     </FormGroup>
@@ -549,12 +554,12 @@ export default function ModalAdd(props) {
                     <FormGroup>
                       <Label for="nominal_cair">Nominal Cair</Label>
                       <Input
-                        // id="nominal_cair"
+                        id="nominal_cair"
                         name="nominal_cair"
                         placeholder="please input nominal cair"
                         type="text"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                         value={values.nominal_cair}
                       />
                     </FormGroup>

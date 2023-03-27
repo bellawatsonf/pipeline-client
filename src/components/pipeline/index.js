@@ -46,6 +46,8 @@ import { Formik } from "formik";
 import styleTable from "../tablestyle.module.css";
 import * as XLSX from "xlsx";
 import { useExcelDownloder } from "react-xls";
+import { FormatRupiah } from "../helper/formatRupiah";
+
 // import { Loading } from "../loading";
 
 export default function PipelineComponent() {
@@ -489,13 +491,15 @@ export default function PipelineComponent() {
                       <Row key={index}>
                         {/* <Cell>{no++}</Cell> */}
                         <Cell>{item.nama_nasabah}</Cell>
-                        <Cell>{item.limit}</Cell>
+                        <Cell>{FormatRupiah(item.limit)}</Cell>
                         <Cell>{item.StatusPengajuan.nama_pengajuan}</Cell>
                         <Cell>{item.Sector.nama_sector}</Cell>
 
                         <Cell>{toString(item.tgl_RKP_B)}</Cell>
                         <Cell>{toString(item.tgl_RKP_A)}</Cell>
-                        <Cell>{item.nominal_cair}</Cell>
+                        <Cell>
+                          {FormatRupiah(item.nominal_cair).toString()}
+                        </Cell>
                         <Cell>{item.Progress.nama_progress}</Cell>
                         <Cell>{toString(item.tgl_proyeksi)}</Cell>
 
@@ -518,12 +522,12 @@ export default function PipelineComponent() {
                     <Row key={index}>
                       {/* <Cell>{no++}</Cell> */}
                       <Cell>{item.nama_nasabah}</Cell>
-                      <Cell>{item.limit}</Cell>
+                      <Cell>{FormatRupiah(item.limit)}</Cell>
                       <Cell>{item.StatusPengajuan.nama_pengajuan}</Cell>
                       <Cell>{item.Sector.nama_sector}</Cell>
                       <Cell>{toString(item.tgl_RKP_B)}</Cell>
                       <Cell>{toString(item.tgl_RKP_A)}</Cell>
-                      <Cell>{item.nominal_cair}</Cell>
+                      <Cell>{FormatRupiah(item.nominal_cair).toString()}</Cell>
                       <Cell>{item.Progress.nama_progress}</Cell>
                       <Cell>{toString(item.tgl_proyeksi)}</Cell>
                       <Cell>{item.Pegawai.nama_pegawai}</Cell>
