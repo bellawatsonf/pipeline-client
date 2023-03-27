@@ -22,7 +22,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `http://localhost:3000/progress/${props.id}`,
+      url: `https://server-pipeline.herokuapp.com/progress/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -50,7 +50,7 @@ export default function ModalAdd(props) {
       nama_progress: data.progress_name,
     };
     axios
-      .post("http://localhost:3000/add-progress", input, {
+      .post("https://server-pipeline.herokuapp.com/add-progress", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -84,11 +84,15 @@ export default function ModalAdd(props) {
       nama_progress: data.progress_name,
     };
     axios
-      .put(`http://localhost:3000/edit-progress/${props.id}`, input, {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
+      .put(
+        `https://server-pipeline.herokuapp.com/edit-progress/${props.id}`,
+        input,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      )
       .then(function (response) {
         props.setOpen(false);
         props.fetchProgress();

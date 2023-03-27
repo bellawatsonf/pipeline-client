@@ -230,16 +230,16 @@ export default function PipelineComponent() {
     console.log(params, "resmasukfetch");
     let link = "";
     if (params.search !== undefined) {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
+      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100`;
     }
 
     let linkAdmin = "";
     if (params.search !== undefined) {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
+      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`;
     }
     setLoading(true);
     axios({
@@ -296,7 +296,7 @@ export default function PipelineComponent() {
       setLoading(true);
       axios({
         method: "patch",
-        url: `http://localhost:3000/delete-pipeline/${id}`,
+        url: `https://server-pipeline.herokuapp.com/delete-pipeline/${id}`,
         data: input,
         headers: {
           token: localStorage.getItem("token"),
@@ -338,7 +338,7 @@ export default function PipelineComponent() {
       setLoading(true);
       axios({
         method: "delete",
-        url: `http://localhost:3000/delete-pipelineadmin/${id}`,
+        url: `https://server-pipeline.herokuapp.com/delete-pipelineadmin/${id}`,
         headers: {
           token: localStorage.getItem("token"),
         },
