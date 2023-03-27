@@ -26,6 +26,7 @@ export default function ModalAdd(props) {
   console.log(props.dataGroup, "datagrup");
   let initialValue = {
     group_name: "",
+    initial_group: "",
   };
   let [stateField, setStateField] = useState(initialValue);
   const renderError = (message) => (
@@ -47,6 +48,7 @@ export default function ModalAdd(props) {
           return {
             ...prevState,
             group_name: res.data.data.nama_group,
+            initial_group: res.data.data.initial_group,
           };
         });
       })
@@ -61,6 +63,7 @@ export default function ModalAdd(props) {
     console.log(data, "datassss");
     let input = {
       nama_group: data.group_name,
+      initial_group: data.initial_group,
     };
     console.log(input, "input data");
     axios
@@ -97,6 +100,7 @@ export default function ModalAdd(props) {
     console.log(data, "masuk");
     let input = {
       nama_group: data.group_name,
+      initial_group: data.initial_group,
     };
     axios
       .put(`http://localhost:3000/edit-group/${props.id}`, input, {
@@ -196,6 +200,23 @@ export default function ModalAdd(props) {
 
                 {values.group_name === "" && (
                   <ErrorMessage name="group_name" render={renderError} />
+                )}
+
+                <TextField
+                  //   autoFocus
+                  margin="dense"
+                  id="initial_group"
+                  label="Initial Group"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  value={values.initial_group}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+
+                {values.initial_group === "" && (
+                  <ErrorMessage name="initial_group" render={renderError} />
                 )}
               </div>
               <div

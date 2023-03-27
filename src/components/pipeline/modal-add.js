@@ -167,36 +167,36 @@ export default function ModalAdd(props) {
       status_archive: false,
     };
     console.log(input, "datainput");
-    axios
-      .put(`http://localhost:3000/edit-pipeline/${props.id}`, input, {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
-      .then(function (response) {
-        props.setOpen(false);
-        setStatusSubmit(true);
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "edit pipeline successfully",
-          confirmButtonText: "Ok",
-          // timer: 1500,
-        }).then((result) => {
-          console.log(result, "result");
-          /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
-            props.fetchPipeline();
-          }
-        });
-      })
-      .catch(function (error) {
-        console.log(error, "eror");
-        Swal.fire({
-          icon: "error",
-          text: e.response.data.message,
-        });
-      });
+    axios;
+    // .put(`http://localhost:3000/edit-pipeline/${props.id}`, input, {
+    //   headers: {
+    //     token: localStorage.getItem("token"),
+    //   },
+    // })
+    // .then(function (response) {
+    //   props.setOpen(false);
+    //   setStatusSubmit(true);
+    //   Swal.fire({
+    //     position: "top-end",
+    //     icon: "success",
+    //     title: "edit pipeline successfully",
+    //     confirmButtonText: "Ok",
+    //     // timer: 1500,
+    //   }).then((result) => {
+    //     console.log(result, "result");
+    //     /* Read more about isConfirmed, isDenied below */
+    //     if (result.isConfirmed) {
+    //       props.fetchPipeline();
+    //     }
+    //   });
+    // })
+    // .catch(function (error) {
+    //   console.log(error, "eror");
+    //   Swal.fire({
+    //     icon: "error",
+    //     text: e.response.data.message,
+    //   });
+    // });
     // router.refresh();
   }
 
@@ -429,7 +429,7 @@ export default function ModalAdd(props) {
                       {/* <input type="text" id="rupiah" /> */}
                       <Label for="limit">Limit</Label>
                       <Input
-                        id="rupiah"
+                        // id="rupiah"
                         name="limit"
                         placeholder="please input limit"
                         type="text"
@@ -545,7 +545,7 @@ export default function ModalAdd(props) {
                     <FormGroup>
                       <Label for="nominal_cair">Nominal Cair</Label>
                       <Input
-                        id="nominal_cair"
+                        // id="nominal_cair"
                         name="nominal_cair"
                         placeholder="please input nominal cair"
                         type="text"

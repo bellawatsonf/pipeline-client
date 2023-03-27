@@ -10,6 +10,6 @@ export function FormatRupiah(param) {
   }
   console.log(rupiah, "rupiah");
   let hasil = rupiah;
+  console.log(rupiah, "datainrupiah");
   return hasil;
-  //   console.log(rupiah, "datainrupiah");
 }

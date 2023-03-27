@@ -75,7 +75,7 @@ const ProjectTables = () => {
       },
     })
       .then((res) => {
-        console.log(res.data.listData, "respon");
+        console.log(res.data.listData, "respons");
         setStateField((prevState) => {
           return {
             ...prevState,
@@ -100,6 +100,8 @@ const ProjectTables = () => {
     });
     // fetchPipeline();
   }, []);
+
+  console.log(stateField, "dtate");
   return (
     <Card>
       <CardBody>
@@ -130,20 +132,12 @@ const ProjectTables = () => {
                         height="45"
                       />
                       <div className="ms-3">
-                        <h6 className="mb-0">{tdata.Pegawai.nama_pegawai}</h6>
+                        <h6 className="mb-0">{tdata.nama_pegawai}</h6>
                       </div>
                     </div>
                   </td>
-                  <td>{tdata.Pegawai.Group.nama_group}</td>
-                  <td>
-                    {tdata.status === "pending" ? (
-                      <span className="p-2 bg-danger rounded-circle d-inline-block ms-3" />
-                    ) : tdata.status === "holt" ? (
-                      <span className="p-2 bg-warning rounded-circle d-inline-block ms-3" />
-                    ) : (
-                      <span className="p-2 bg-success rounded-circle d-inline-block ms-3" />
-                    )}
-                  </td>
+                  <td>p</td>
+                  <td>{tdata.total}</td>
                 </tr>
               ))}
             </tbody>

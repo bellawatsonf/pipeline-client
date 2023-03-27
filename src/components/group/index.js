@@ -71,25 +71,16 @@ export default function GroupComponent() {
     BaseRow: `
     font-size: 14px;
     color:white;
-    text-align:center
+   
 
  
   `,
     HeaderRow: `
     background-color: #eaf5fd;
-     text-align:center
+  
    
     
   `,
-    Header: `
-    text-align:center !important
-    
-
-    `,
-    HeaderCellSort: `
-    display:flex;
-    justify-content:center
-    `,
 
     Cell: `background:white !important;
     color: black !important
@@ -114,6 +105,8 @@ export default function GroupComponent() {
       sortFns: {
         nama_group: (array) =>
           array.sort((a, b) => a.nama_group.localeCompare(b.nama_group)),
+        initial_group: (array) =>
+          array.sort((a, b) => a.initial_group.localeCompare(b.initial_group)),
       },
     }
   );
@@ -232,6 +225,9 @@ export default function GroupComponent() {
                   <HeaderCellSort sortKey="nama_group">
                     Group Name
                   </HeaderCellSort>
+                  <HeaderCellSort sortKey="initial_group">
+                    Initial Group
+                  </HeaderCellSort>
                   <HeaderCell></HeaderCell>
                 </HeaderRow>
               </Header>
@@ -241,6 +237,7 @@ export default function GroupComponent() {
                   <Row key={index}>
                     {/* <Cell>{index}</Cell> */}
                     <Cell>{item.nama_group}</Cell>
+                    <Cell>{item.initial_group}</Cell>
 
                     <Cell>
                       <div

@@ -22,3 +22,8 @@ pipeline tampil sesuai user login(done)
 group by and count total nominal cair di dasboard ini plus pagination
 format uang di inputan(done)
 grafik di dasboard coba tnya mas aji
+
+number rata tengah text rata kiri
+format nominal _cair pas tampil
+jgn lupa ubah tipe data nominal_cair di migration
+tmbh fiel initial group di tbl group
