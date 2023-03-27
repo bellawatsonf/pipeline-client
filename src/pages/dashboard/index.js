@@ -65,21 +65,21 @@ export default function Home() {
     console.log(params, "resmasukfetch");
     let link = "";
     if (params.search !== undefined) {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
+      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100`;
     }
 
     let linkAdmin = "";
     if (params.search !== undefined) {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
+      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`;
     }
 
     axios({
       method: "get",
-      url: `http://localhost:3000/pipeline?page=${params.page}&size=100`,
+      url: `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`,
       // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
       headers: {
         token: localStorage.getItem("token"),
