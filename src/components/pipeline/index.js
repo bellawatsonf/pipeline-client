@@ -274,6 +274,7 @@ export default function PipelineComponent() {
               Limit: el.limit,
               "RKP B": el.tgl_RKP_B,
               "RKP A": el.tgl_RKP_A,
+              "Proyeksi Date": el.tgl_proyeksi,
               "Nominal Cair": el.nominal_cair,
               "Created Date": el.createdAt,
             });
@@ -390,9 +391,10 @@ export default function PipelineComponent() {
     return <LoadingScreen />;
   }
 
+  console.log(newFormat, "newFormat");
   const downloadExcel = (data) => {
     console.log(data, "dataexel");
-    const worksheet = XLSX.utils.json_to_sheet(newFormat);
+    const worksheet = XLSX.utils.json_to_sheet(newFormat ?? newFormat);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     //let buffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
