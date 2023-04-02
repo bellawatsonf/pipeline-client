@@ -55,12 +55,45 @@ const SalesChart = (props) => {
   // console.log(datanominal, "datanominal");
 
   let datanominal = [];
+  let databulan = [];
   // let bulan
   stateField.nodes.map((el) => {
+    let cekbln = el.production_to_month.split("-");
+    let namabulan = "";
+    if (cekbln[1] === "01") {
+      namabulan = "Jan";
+    } else if (cekbln[1] === "02") {
+      namabulan = "Feb";
+    } else if (cekbln[1] === "03") {
+      namabulan = "March";
+    } else if (cekbln[1] === "04") {
+      namabulan = "April";
+    } else if (cekbln[1] === "05") {
+      namabulan = "May";
+    } else if (cekbln[1] === "06") {
+      namabulan = "Juny";
+    } else if (cekbln[1] === "07") {
+      namabulan = "July";
+    } else if (cekbln[1] === "08") {
+      namabulan = "August";
+    } else if (cekbln[1] === "09") {
+      namabulan = "Sept";
+    } else if (cekbln[1] === "10") {
+      namabulan = "Oct";
+    } else if (cekbln[1] === "11") {
+      namabulan = "Nov";
+    } else if (cekbln[1] === "12") {
+      namabulan = "Dec";
+    }
     console.log(el, "datael");
     datanominal.push(el.total);
+    databulan.push(namabulan);
+    // datanominal.push({
+    //   nama: namabulan,
+    //   total: el.total,
+    // });
   });
-
+  console.log(datanominal, "datanominal");
   const chartoptions = {
     series: [
       {
@@ -85,20 +118,22 @@ const SalesChart = (props) => {
         width: 1,
       },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Des",
-        ],
+        categories:
+          // [
+          //   "Jan",
+          //   "Feb",
+          //   "March",
+          //   "April",
+          //   "May",
+          //   "June",
+          //   "July",
+          //   "Aug",
+          //   "Sep",
+          //   "Oct",
+          //   "Nov",
+          //   "Des",
+          // ],
+          databulan,
       },
     },
   };

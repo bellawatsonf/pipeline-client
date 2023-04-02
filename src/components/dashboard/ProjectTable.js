@@ -7,6 +7,8 @@ import user2 from "../../assets/images/users/user2.jpg";
 import user3 from "../../assets/images/users/user3.jpg";
 import user4 from "../../assets/images/users/user4.jpg";
 import user5 from "../../assets/images/users/user5.jpg";
+import { FormatRupiah } from "../helper/formatRupiah";
+import { toString } from "../helper/formatDate";
 
 const tableData = [
   {
@@ -116,7 +118,7 @@ const ProjectTables = () => {
               <tr>
                 <th>User</th>
                 <th>Group</th>
-                <th>Month</th>
+                <th>Proyeksi Date</th>
                 <th>Total Nominal Cair</th>
               </tr>
             </thead>
@@ -138,8 +140,8 @@ const ProjectTables = () => {
                     </div>
                   </td>
                   <td>{tdata.nama_group}</td>
-                  <td>{tdata.production_to_month}</td>
-                  <td>{tdata.total}</td>
+                  <td>{toString(tdata.production_to_month)}</td>
+                  <td>Rp.{FormatRupiah(tdata.total)},00</td>
                 </tr>
               ))}
             </tbody>

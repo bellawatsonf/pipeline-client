@@ -77,7 +77,7 @@ export default function ReportComponent() {
   let [statusForm, setStatusForm] = useState("add");
   const [isLoading, setLoading] = useState(false);
   let router = useRouter();
-  const [filter_tahun, setYear] = useState("2023");
+  const [filter_tahun, setYear] = useState("");
   const [filter_month, setMonth] = useState("all");
   const [newFormat, setNew] = useState();
   let levelUser = "";
@@ -511,7 +511,9 @@ export default function ReportComponent() {
                   {levelUser === "admin" || levelUser === "super admin" ? (
                     <HeaderCellSort sortKey="id_pegawai">User</HeaderCellSort>
                   ) : levelUser === "user" ? null : null}
-
+                  <HeaderCellSort sortKey="created_at">
+                    Created At
+                  </HeaderCellSort>
                   {/* <HeaderCell></HeaderCell> */}
                 </HeaderRow>
               </Header>
@@ -535,6 +537,8 @@ export default function ReportComponent() {
                         </Cell>
                         <Cell>{item.Progress.nama_progress}</Cell>
                         <Cell>{toString(item.tgl_proyeksi)}</Cell>
+                        <Cell>{toString(item.createdAt)}</Cell>
+                        {/* <Cell>{toString(item.createdAt)}</Cell> */}
 
                         {/* <Cell>
                           <BorderColorIcon
@@ -564,6 +568,7 @@ export default function ReportComponent() {
                       <Cell>{item.Progress.nama_progress}</Cell>
                       <Cell>{toString(item.tgl_proyeksi)}</Cell>
                       <Cell>{item.Pegawai.nama_pegawai}</Cell>
+                      <Cell>{item.createdAt}</Cell>
 
                       {/* <Cell>
                         <BorderColorIcon

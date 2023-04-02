@@ -56,12 +56,34 @@ export default function Home() {
     nodes: [],
   };
   const [stateField, setStateField] = useState(initialState);
+  const [nilaitotal, settotal] = useState(0);
+  const [nilaitotalcb2, settotalcb2] = useState(0);
+  const [nilaitotalcb3, settotalcb3] = useState(0);
+  const [nilaitotalrcb, settotalrcb] = useState(0);
 
   let levelUser = "";
   if (typeof window !== "undefined") {
     // Perform localStorage action
     levelUser = localStorage.getItem("level");
   }
+  let datacards = [
+    {
+      initial_group: "CB 1",
+      total: nilaitotal,
+    },
+    {
+      initial_group: "CB 2",
+      total: nilaitotalcb2,
+    },
+    {
+      initial_group: "CB 3",
+      total: nilaitotalcb3,
+    },
+    {
+      initial_group: "RCB",
+      total: nilaitotalrcb,
+    },
+  ];
   const fetchPipeline = (params) => {
     console.log(params, "resmasukfetch");
     let link = "";
@@ -87,7 +109,7 @@ export default function Home() {
       },
     })
       .then((res) => {
-        console.log(res.data.listData, "respon");
+        console.log(res.data.listData, "respontt");
         setStateField((prevState) => {
           return {
             ...prevState,
@@ -113,26 +135,6 @@ export default function Home() {
     // fetchPipeline();
   }, []);
 
-  const [nilaitotal, settotal] = useState(0);
-  let datacards = [
-    {
-      initial_group: "CB 1",
-      total: nilaitotal,
-    },
-    {
-      initial_group: "CB 2",
-      total: nilaitotal,
-    },
-    {
-      initial_group: "CB 3",
-      total: nilaitotal,
-    },
-    {
-      initial_group: "RCB",
-      total: nilaitotal,
-    },
-  ];
-
   async function fetchpipelinegroup() {
     axios({
       method: "get",
@@ -145,17 +147,18 @@ export default function Home() {
       .then((res) => {
         console.log(res.data, "respondst");
         res.data.map((el) => {
-          if (datacards.include(el.initial_group)) {
+          if (el.initial_group === "CB 1") {
             settotal(el.total);
+          } else if (el.initial_group === "CB 2") {
+            settotalcb2(el.total);
+          } else if (el.initial_group === "CB 3") {
+            settotalcb3(el.total);
+          } else if (el.initial_group === "RCB") {
+            settotalrcb(el.total);
           }
-          // datacards.map((dt) => {
-          //   console.log(dt.initial_group, el, "responds");
-          //   if (dt.initial_group === el.initial_group) {
-          //     settotal(el.total);
-          //   }
-          // });
         });
       })
+
       .catch((e) => {
         console.log(e, "error pipeline");
       });

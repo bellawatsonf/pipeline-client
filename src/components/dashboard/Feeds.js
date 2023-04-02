@@ -9,6 +9,7 @@ import {
   ListGroupItem,
   Button,
 } from "reactstrap";
+import { FormatRupiah } from "../helper/formatRupiah";
 
 const FeedData = [
   {
@@ -83,7 +84,7 @@ const Feeds = (props) => {
               </Button> */}
                 {feed.Sector.nama_sector}
                 <small className="ms-auto text-muted text-small">
-                  {feed.nominal_cair}
+                  Rp.{FormatRupiah(feed.nominal_cair)},00
                 </small>
               </ListGroupItem>
             ))}
