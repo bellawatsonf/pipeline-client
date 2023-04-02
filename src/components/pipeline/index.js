@@ -420,7 +420,7 @@ export default function PipelineComponent() {
         >
           Add Pipeline <AddIcon sx={{ paddingLeft: "5px" }} />
         </Button>
-        <button onClick={(e) => downloadExcel(e)}>Download As Excel</button>
+        {/* <button onClick={(e) => downloadExcel(e)}>Download As Excel</button> */}
         {/* <ExcelDownloder
           data={stateField}
           filename={"Pipeline"}

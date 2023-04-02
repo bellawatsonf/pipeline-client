@@ -81,7 +81,11 @@ const Header = ({ showMobmenu }) => {
                 : router.pathname === "/group-user"
                 ? "Group User"
                 : router.pathname === "/progress"
-                ? "Group User"
+                ? "Progress User"
+                : router.pathname === "/pipeline"
+                ? "Pipeline"
+                : router.pathname === "/report"
+                ? "Report"
                 : "Dashboard"}
             </Typography>
             {/* </a> */}
