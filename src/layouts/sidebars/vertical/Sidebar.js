@@ -51,6 +51,12 @@ const navigation = [
     icon: "bi bi-link",
     level: ["admin", "user", "super admin"],
   },
+  {
+    title: "Report",
+    href: "/report",
+    icon: "bi bi-card-text",
+    level: ["admin", "user", "super admin"],
+  },
   // {
   //   title: "Alert",
   //   href: "/ui/alerts",

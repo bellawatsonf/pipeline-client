@@ -11,6 +11,7 @@ import bg3 from "../../assets/images/bg/bg3.jpg";
 import bg4 from "../../assets/images/bg/bg4.jpg";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FormatRupiah } from "../../components/helper/formatRupiah";
 
 const BlogData = [
   {
@@ -65,21 +66,21 @@ export default function Home() {
     console.log(params, "resmasukfetch");
     let link = "";
     if (params.search !== undefined) {
-      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100`;
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
     }
 
     let linkAdmin = "";
     if (params.search !== undefined) {
-      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`;
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
     }
 
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`,
+      url: `http://localhost:3000/pipeline?page=${params.page}&size=100`,
       // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
       headers: {
         token: localStorage.getItem("token"),
@@ -111,6 +112,60 @@ export default function Home() {
     });
     // fetchPipeline();
   }, []);
+
+  const [nilaitotal, settotal] = useState(0);
+  let datacards = [
+    {
+      initial_group: "CB 1",
+      total: nilaitotal,
+    },
+    {
+      initial_group: "CB 2",
+      total: nilaitotal,
+    },
+    {
+      initial_group: "CB 3",
+      total: nilaitotal,
+    },
+    {
+      initial_group: "RCB",
+      total: nilaitotal,
+    },
+  ];
+
+  async function fetchpipelinegroup() {
+    axios({
+      method: "get",
+      url: `http://localhost:3000/pipeline-group`,
+      // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
+      headers: {
+        token: localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data, "respondst");
+        res.data.map((el) => {
+          if (datacards.include(el.initial_group)) {
+            settotal(el.total);
+          }
+          // datacards.map((dt) => {
+          //   console.log(dt.initial_group, el, "responds");
+          //   if (dt.initial_group === el.initial_group) {
+          //     settotal(el.total);
+          //   }
+          // });
+        });
+      })
+      .catch((e) => {
+        console.log(e, "error pipeline");
+      });
+  }
+
+  useEffect(() => {
+    fetchpipelinegroup();
+  }, []);
+
+  console.log(datacards, "datass");
   return (
     <div>
       <Head>
@@ -121,20 +176,22 @@ export default function Home() {
       <div>
         {/***Top Cards***/}
         <Row>
-          <Col sm="6" lg="3">
-            <TopCards
-              bg="bg-light-success text-success"
-              title="Profit"
-              subtitle="Yearly Earning"
-              earning="$21k"
-              icon="bi bi-wallet"
-            />
-          </Col>
-          <Col sm="6" lg="3">
+          {datacards.map((el) => (
+            <Col sm="6" lg="3">
+              <TopCards
+                bg="bg-light-success text-success"
+                title="Profit"
+                subtitle={el.initial_group}
+                earning={`Rp.${FormatRupiah(el.total)},00`}
+                icon="bi bi-wallet"
+              />
+            </Col>
+          ))}
+          {/* <Col sm="6" lg="3">
             <TopCards
               bg="bg-light-danger text-danger"
               title="Refunds"
-              subtitle="Refund given"
+              subtitle="CB 2"
               earning="$1k"
               icon="bi bi-coin"
             />
@@ -156,7 +213,7 @@ export default function Home() {
               earning="210"
               icon="bi bi-bag"
             />
-          </Col>
+          </Col> */}
         </Row>
         {/***Sales & Feed***/}
         <Row>

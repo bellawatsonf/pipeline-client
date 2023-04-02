@@ -68,18 +68,19 @@ const ProjectTables = () => {
   const fetchPipeline = (params) => {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pipeline-dashboard?page=${params.page}&size=100`,
+      url: `http://localhost:3000/pipeline-dashboard?page=${params.page}&size=100`,
       // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
       headers: {
         token: localStorage.getItem("token"),
       },
     })
       .then((res) => {
-        console.log(res.data.listData, "respons");
+        console.log(res, "respons");
         setStateField((prevState) => {
           return {
             ...prevState,
-            nodes: res.data.listData,
+            // nodes: res.data.listData,
+            nodes: res.data,
           };
         });
       })
@@ -107,7 +108,7 @@ const ProjectTables = () => {
       <CardBody>
         <CardTitle tag="h5">User Listing</CardTitle>
         <CardSubtitle className="mb-2 text-muted" tag="h6">
-          Overview of the user
+          Overview of the all user permonth
         </CardSubtitle>
         <div className="table-responsive">
           <Table className="text-nowrap mt-3 align-middle" borderless>
@@ -115,7 +116,7 @@ const ProjectTables = () => {
               <tr>
                 <th>User</th>
                 <th>Group</th>
-
+                <th>Month</th>
                 <th>Total Nominal Cair</th>
               </tr>
             </thead>
@@ -136,7 +137,8 @@ const ProjectTables = () => {
                       </div>
                     </div>
                   </td>
-                  <td>p</td>
+                  <td>{tdata.nama_group}</td>
+                  <td>{tdata.production_to_month}</td>
                   <td>{tdata.total}</td>
                 </tr>
               ))}

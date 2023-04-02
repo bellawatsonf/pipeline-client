@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+  .divtable {
+    width: 1000px;
+    overflow-x: scroll;
+  }
+}

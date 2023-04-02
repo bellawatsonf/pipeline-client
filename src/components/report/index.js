@@ -1,4 +1,12 @@
-import { Button, Typography, TextField } from "@mui/material";
+import {
+  Button,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+} from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import stylepipeline from "./pipeline.module.css";
 import {
   Table,
@@ -47,10 +55,11 @@ import styleTable from "../tablestyle.module.css";
 import * as XLSX from "xlsx";
 import { useExcelDownloder } from "react-xls";
 import { FormatRupiah } from "../helper/formatRupiah";
+import { getMonth } from "date-fns";
 
 // import { Loading } from "../loading";
 
-export default function PipelineComponent() {
+export default function ReportComponent() {
   const { ExcelDownloder, Type } = useExcelDownloder();
   let initialState = {
     page: 0,
@@ -59,6 +68,7 @@ export default function PipelineComponent() {
 
     nodes: [],
     dataAfterArchive: [],
+    // filter_month: "all",
   };
   const [stateField, setStateField] = useState(initialState);
   // const [data, setData] = useState({ nodes: [] });
@@ -67,7 +77,8 @@ export default function PipelineComponent() {
   let [statusForm, setStatusForm] = useState("add");
   const [isLoading, setLoading] = useState(false);
   let router = useRouter();
-  const [search, setSearch] = useState("");
+  const [filter_tahun, setYear] = useState("2023");
+  const [filter_month, setMonth] = useState("all");
   const [newFormat, setNew] = useState();
   let levelUser = "";
   if (typeof window !== "undefined") {
@@ -107,6 +118,70 @@ export default function PipelineComponent() {
     // color: white !important
     // `,
   });
+
+  console.log(new Date().getMonth(), "newdate");
+
+  let month = [
+    {
+      id: "1",
+      name: "January",
+    },
+    {
+      id: "2",
+
+      name: "February",
+    },
+    {
+      id: "3",
+
+      name: "March",
+    },
+    {
+      id: "4",
+
+      name: "April",
+    },
+    {
+      id: "5",
+
+      name: "May",
+    },
+    {
+      id: "6",
+
+      name: "June",
+    },
+    {
+      id: "7",
+
+      name: "July",
+    },
+    {
+      id: "8",
+
+      name: "August",
+    },
+    {
+      id: "9",
+
+      name: "September",
+    },
+    {
+      id: "10",
+
+      name: "Obtober",
+    },
+    {
+      id: "11",
+
+      name: "November",
+    },
+    {
+      id: "12",
+
+      name: "December",
+    },
+  ];
 
   const sort = useSort(
     stateField,
@@ -163,12 +238,22 @@ export default function PipelineComponent() {
     // if (resetFilter === false) {
     //   console.log('masuk search if');
 
-    setSearch(event.target.value);
+    setYear(event.target.value);
   };
 
-  useCustom("search", stateField, {
-    state: { search },
+  useCustom("filter_tahun", stateField, {
+    state: { filter_tahun },
     onChange: onSearchChange,
+  });
+
+  const handleChangeSelect = (event) => {
+    console.log(event.target.value, "event");
+    setMonth(event.target.value);
+  };
+
+  useCustom("filter_month", stateField, {
+    state: { filter_month },
+    onChange: onSearchDate,
   });
 
   const timeout = React.useRef();
@@ -181,7 +266,8 @@ export default function PipelineComponent() {
         fetchPipeline({
           size: state.size,
           page: pagination.state.page,
-          search: state.search,
+          filter_tahun: state.filter_tahun,
+          filter_month,
         });
         // console.log('ke halaman 1');
         // callF(state);
@@ -202,44 +288,53 @@ export default function PipelineComponent() {
       500
     );
   }
-  let timeout2 = React.useRef();
-  function fetchPipelineAfterEdit(action, state) {
-    if (timeout2.current) clearTimeout(timeout2.current);
 
-    timeout2.current = setTimeout(() => {
-      // pagination.state.page = 1;
-      // pagination.fns.onSetPage(1);
-      fetchPipeline({
-        size: 100,
-        page: pagination.state.page,
-        search,
-      });
-      // fetchData({
-      //   search,
-      //   searchIndustry: state.searchIndustry,
+  const timeout3 = React.useRef();
+  function onSearchDate(action, state) {
+    console.log(state.filter_month, "filtermonth");
+    if (timeout3.current) clearTimeout(timeout.current);
 
-      //   page: pagination.state.page,
-      //   sort: {
-      //     sortKey: sort.state.sortKey,
-      //     reverse: sort.state.reverse,
-      //   },
-      //   statusFilter,
-      // });
-      // pagination.state.page = 1;
-    }, 500);
+    timeout3.current = setTimeout(
+      () => {
+        // console.log('state search: ' + state.search);
+        fetchPipeline({
+          size: state.size,
+          page: pagination.state.page,
+          filter_tahun,
+          waktu_awal: state.filter_month,
+        });
+        // console.log('ke halaman 1');
+        // callF(state);
+        // pagination.state.page = 1;
+        // fetchData({
+        //   search: state.search,
+        //   searchIndustry,
+
+        //   page: pagination.state.page,
+        //   sort: {
+        //     sortKey: sort.state.sortKey,
+        //     reverse: sort.state.reverse,
+        //   },
+        //   statusFilter,
+        // });
+      },
+
+      500
+    );
   }
+
   const fetchPipeline = (params) => {
     console.log(params, "resmasukfetch");
     let link = "";
-    if (params.search !== undefined) {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+    if (params.filter_tahun !== undefined || params.filter_month != undefined) {
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&filter_tahun=${params.filter_tahun}&waktu_awal=${filter_month}`;
     } else {
       link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
     }
 
     let linkAdmin = "";
-    if (params.search !== undefined) {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+    if (params.filter_tahun !== undefined || params.filter_month != undefined) {
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.filter_tahun}&waktu_awal=${filter_month}`;
     } else {
       linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
     }
@@ -261,10 +356,11 @@ export default function PipelineComponent() {
           };
         });
         setLoading(false);
+        console.log(stateField.nodes, "dataaa");
         if (stateField.nodes.length > 0) {
           let formatDataBaru = [];
           console.log("formatttt");
-          stateField.nodes.map((el) => {
+          res.data.listData.map((el) => {
             formatDataBaru.push({
               "Nama Nasabah": el.nama_nasabah,
               Sector: el.Sector.nama_sector,
@@ -292,97 +388,13 @@ export default function PipelineComponent() {
         // });
       });
   };
-  function prosesDelete(id) {
-    if (levelUser === "user") {
-      console.log("masuk leveluser");
-      let input = { status_archive: true };
-      setLoading(true);
-      axios({
-        method: "patch",
-        url: `http://localhost:3000/delete-pipeline/${id}`,
-        data: input,
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
-        .then((res) => {
-          console.log(res, "response");
-          setLoading(false);
-          // fetchPipeline({
-          //   size: stateField.size,
-          //   page: pagination.fns.onSetPage(1),
-          // });
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "delete pipeline successfully",
-            confirmButtonText: "Ok",
-            // timer: 1500,
-          }).then((result) => {
-            console.log(result, "result");
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-              // fetchPipelineAfterEdit();
-              if (res.status === 201) {
-                router.reload();
-              }
-              // fetchPipeline({ size: stateField.size, page: stateField.page });
-            }
-          });
-        })
-        .catch((e) => {
-          console.log(e, "error pipeline");
-          // Swal.fire({
-          //   icon: "error",
-          //   text: e.response.data.message,
-          // });
-        });
-    } else if (levelUser === "admin" || levelUser === "super admin") {
-      setLoading(true);
-      axios({
-        method: "delete",
-        url: `http://localhost:3000/delete-pipelineadmin/${id}`,
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
-        .then((res) => {
-          console.log(res, "response");
-          // fetchPipeline({
-          //   size: stateField.size,
-          //   page: pagination.fns.onSetPage(1),
-          // });
-          setLoading(false);
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "delete pipeline successfully",
-            confirmButtonText: "Ok",
-            // timer: 1500,
-          }).then((result) => {
-            console.log(result, "result");
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-              fetchPipeline({ size: stateField.size, page: stateField.page });
-            }
-          });
-        })
-        .catch((e) => {
-          console.log(e, "error pipeline");
-          // Swal.fire({
-          //   icon: "error",
-          //   text: e.response.data.message,
-          // });
-        });
-    }
-  }
-  let no = 1;
 
   useEffect(() => {
     fetchPipeline({
       size: stateField.size,
       page: stateField.page,
-      search: stateField.search,
+      filter_tahun: filter_tahun,
+      waktu_awal: filter_month,
     });
     // fetchPipeline();
   }, []);
@@ -402,7 +414,8 @@ export default function PipelineComponent() {
     XLSX.writeFile(workbook, "DataSheet.xlsx");
   };
 
-  console.log(stateField.nodes, "page");
+  console.log(filter_month, "page");
+  console.log(filter_tahun, "page");
 
   return (
     <>
@@ -413,13 +426,13 @@ export default function PipelineComponent() {
           justifyContent: "flex-end",
         }}
       >
-        <Button
+        {/* <Button
           variant="contained"
           color="success"
           onClick={() => handleClickOpen("add", "")}
         >
           Add Pipeline <AddIcon sx={{ paddingLeft: "5px" }} />
-        </Button>
+        </Button> */}
         <button onClick={(e) => downloadExcel(e)}>Download As Excel</button>
         {/* <ExcelDownloder
           data={stateField}
@@ -433,16 +446,34 @@ export default function PipelineComponent() {
         className="bg-white"
         style={{ paddingLeft: "20px", paddingRight: "20px" }}
       >
-        <TextField
-          id="outlined-basic"
-          label="search nasabah name"
-          variant="outlined"
-          sx={{ margin: "20px 0px 20px 0px" }}
-          value={search}
-          onChange={(e) => {
-            handleSearch(e);
-          }}
-        />
+        <div style={{ display: "flex", width: "100%" }}>
+          <FormControl sx={{ margin: "20px 50px 20px 0px", width: "150px" }}>
+            <InputLabel id="demo-simple-select-label">Select Month</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={filter_month}
+              // label="Month"
+              onChange={(e) => handleChangeSelect(e)}
+            >
+              <MenuItem value="all">All</MenuItem>
+
+              {month.map((el) => (
+                <MenuItem value={el.id}>{el.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            id="outlined-basic"
+            label="Insert Year"
+            variant="outlined"
+            sx={{ margin: "20px 0px 20px 0px" }}
+            value={filter_tahun}
+            onChange={(e) => {
+              handleSearch(e);
+            }}
+          />
+        </div>
 
         <Table
           data={stateField}
@@ -481,7 +512,7 @@ export default function PipelineComponent() {
                     <HeaderCellSort sortKey="id_pegawai">User</HeaderCellSort>
                   ) : levelUser === "user" ? null : null}
 
-                  <HeaderCell></HeaderCell>
+                  {/* <HeaderCell></HeaderCell> */}
                 </HeaderRow>
               </Header>
 
@@ -505,7 +536,7 @@ export default function PipelineComponent() {
                         <Cell>{item.Progress.nama_progress}</Cell>
                         <Cell>{toString(item.tgl_proyeksi)}</Cell>
 
-                        <Cell>
+                        {/* <Cell>
                           <BorderColorIcon
                             style={{ cursor: "pointer" }}
                             onClick={() => handleClickOpen("edit", item.id)}
@@ -514,7 +545,7 @@ export default function PipelineComponent() {
                             style={{ cursor: "pointer" }}
                             onClick={() => prosesDelete(item.id)}
                           />
-                        </Cell>
+                        </Cell> */}
                       </Row>
                     ))}
                 </Body>
@@ -534,7 +565,7 @@ export default function PipelineComponent() {
                       <Cell>{toString(item.tgl_proyeksi)}</Cell>
                       <Cell>{item.Pegawai.nama_pegawai}</Cell>
 
-                      <Cell>
+                      {/* <Cell>
                         <BorderColorIcon
                           style={{ cursor: "pointer" }}
                           onClick={() => handleClickOpen("edit", item.id)}
@@ -543,7 +574,7 @@ export default function PipelineComponent() {
                           style={{ cursor: "pointer" }}
                           onClick={() => prosesDelete(item.id)}
                         />
-                      </Cell>
+                      </Cell> */}
                     </Row>
                   ))}
                 </Body>

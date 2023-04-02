@@ -1,5 +1,5 @@
-import { Card, CardBody } from 'reactstrap';
-import PropTypes from 'prop-types';
+import { Card, CardBody } from "reactstrap";
+import PropTypes from "prop-types";
 
 const TopCards = ({ bg, icon, earning, subtitle }) => {
   return (
@@ -10,7 +10,9 @@ const TopCards = ({ bg, icon, earning, subtitle }) => {
             <i className={icon} />
           </div>
           <div className="ms-3">
-            <h3 className="mb-0 font-weight-bold">{earning}</h3>
+            <h3 className="mb-0 font-weight-bold" style={{ fontSize: "17px" }}>
+              {earning}
+            </h3>
             <small className="text-muted">{subtitle}</small>
           </div>
         </div>

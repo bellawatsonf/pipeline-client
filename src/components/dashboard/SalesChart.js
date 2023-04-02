@@ -17,7 +17,7 @@ const SalesChart = (props) => {
   const fetchPipeline = (params) => {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pipeline-dashboard?page=${params.page}&size=100`,
+      url: `http://localhost:3000/pipeline-dashboard?page=${params.page}&size=100`,
       // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
       headers: {
         token: localStorage.getItem("token"),
@@ -28,7 +28,7 @@ const SalesChart = (props) => {
         setStateField((prevState) => {
           return {
             ...prevState,
-            nodes: res.data.listData,
+            nodes: res.data,
           };
         });
       })
@@ -55,6 +55,7 @@ const SalesChart = (props) => {
   // console.log(datanominal, "datanominal");
 
   let datanominal = [];
+  // let bulan
   stateField.nodes.map((el) => {
     console.log(el, "datael");
     datanominal.push(el.total);
