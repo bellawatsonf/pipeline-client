@@ -179,8 +179,8 @@ export default function Home() {
       <div>
         {/***Top Cards***/}
         <Row>
-          {datacards.map((el) => (
-            <Col sm="6" lg="3">
+          {datacards.map((el, i) => (
+            <Col sm="6" lg="3" key={i}>
               <TopCards
                 bg="bg-light-success text-success"
                 title="Profit"
