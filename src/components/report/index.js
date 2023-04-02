@@ -458,8 +458,10 @@ export default function ReportComponent() {
             >
               <MenuItem value="all">All</MenuItem>
 
-              {month.map((el) => (
-                <MenuItem value={el.id}>{el.name}</MenuItem>
+              {month.map((el, i) => (
+                <MenuItem key={i} value={el.id}>
+                  {el.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
