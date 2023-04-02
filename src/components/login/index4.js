@@ -34,7 +34,7 @@ export default function LoginComponent6() {
     console.log(input, "input");
     setLoading(true);
     axios
-      .post("http://localhost:3000/login", input, {
+      .post("https://server-pipeline.herokuapp.com/login", input, {
         // headers: { token: localStorage.getItem("token") },
       })
       .then(function (response) {
