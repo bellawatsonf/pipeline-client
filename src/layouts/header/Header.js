@@ -136,7 +136,8 @@ const Header = ({ showMobmenu }) => {
                   localStorage.removeItem("id");
                   setLoading(false);
                   // router.push("/login");
-                  router.push("/");
+                  // router.push("/");
+                  router.reload("/");
                 } catch (e) {
                   console.log(e);
                 }
