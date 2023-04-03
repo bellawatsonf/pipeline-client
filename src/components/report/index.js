@@ -77,7 +77,7 @@ export default function ReportComponent() {
   let [statusForm, setStatusForm] = useState("add");
   const [isLoading, setLoading] = useState(false);
   let router = useRouter();
-  const [filter_tahun, setYear] = useState("");
+  const [filter_tahun, setYear] = useState(new Date().getFullYear());
   const [filter_month, setMonth] = useState("all");
   const [newFormat, setNew] = useState();
   let levelUser = "";
@@ -327,16 +327,16 @@ export default function ReportComponent() {
     console.log(params, "resmasukfetch");
     let link = "";
     if (params.filter_tahun !== undefined || params.filter_month != undefined) {
-      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100&filter_tahun=${params.filter_tahun}&waktu_awal=${filter_month}`;
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&filter_tahun=${params.filter_tahun}&waktu_awal=${filter_month}`;
     } else {
-      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100`;
+      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
     }
 
     let linkAdmin = "";
     if (params.filter_tahun !== undefined || params.filter_month != undefined) {
-      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100&nama_nasabah=${params.filter_tahun}&waktu_awal=${filter_month}`;
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.filter_tahun}&waktu_awal=${filter_month}`;
     } else {
-      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`;
+      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
     }
     setLoading(true);
     axios({
@@ -352,15 +352,16 @@ export default function ReportComponent() {
         setStateField((prevState) => {
           return {
             ...prevState,
-            nodes: res.data.listData,
+            nodes: res?.data?.listData,
           };
         });
         setLoading(false);
-        console.log(stateField.nodes, "dataaa");
-        if (stateField.nodes.length > 0) {
+        console.log(res.data.listData.length, "dataaa");
+        if (res?.data?.listData?.length > 0) {
           let formatDataBaru = [];
           console.log("formatttt");
-          res.data.listData.map((el) => {
+          res?.data?.listData.map((el) => {
+            console.log(el, "formattttel");
             formatDataBaru.push({
               "Nama Nasabah": el.nama_nasabah,
               Sector: el.Sector.nama_sector,
@@ -375,7 +376,7 @@ export default function ReportComponent() {
               "Created Date": el.createdAt,
             });
           });
-          console.log(formatDataBaru, "dtformat");
+          console.log(formatDataBaru, "dtformatr");
           setNew(formatDataBaru);
         }
       })

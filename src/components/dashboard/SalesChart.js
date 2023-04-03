@@ -17,7 +17,7 @@ const SalesChart = (props) => {
   const fetchPipeline = (params) => {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pipeline-dashboard?page=${params.page}&size=100`,
+      url: `http://localhost:3000/pipeline-dashboard?page=${params.page}&size=100`,
       // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
       headers: {
         token: localStorage.getItem("token"),
