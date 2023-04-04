@@ -131,7 +131,7 @@ export default function PengajuanComponent() {
     setLoading(true);
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pengajuan?page=${params.page}&size=100`,
+      url: `http://localhost:3000/pengajuan?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -160,7 +160,7 @@ export default function PengajuanComponent() {
   function prosesDelete(id) {
     axios({
       method: "delete",
-      url: `https://server-pipeline.herokuapp.com/delete-pengajuan/${id}`,
+      url: `http://localhost:3000/delete-pengajuan/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
