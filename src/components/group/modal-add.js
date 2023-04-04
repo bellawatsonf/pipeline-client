@@ -37,7 +37,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `http://localhost:3000/group/${props.id}`,
+      url: `https://server-pipeline.herokuapp.com/group/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -67,7 +67,7 @@ export default function ModalAdd(props) {
     };
     console.log(input, "input data");
     axios
-      .post("http://localhost:3000/add-group", input, {
+      .post("https://server-pipeline.herokuapp.com/add-group", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -103,11 +103,15 @@ export default function ModalAdd(props) {
       initial_group: data.initial_group,
     };
     axios
-      .put(`http://localhost:3000/edit-group/${props.id}`, input, {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
+      .put(
+        `https://server-pipeline.herokuapp.com/edit-group/${props.id}`,
+        input,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      )
       .then(function (response) {
         props.setOpen(false);
         props.fetchGroup();
