@@ -131,7 +131,7 @@ export default function SectorComponent() {
     setLoading(true);
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/sektor?page=${params.page}&size=100`,
+      url: `http://localhost:3000/sektor?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -165,7 +165,7 @@ export default function SectorComponent() {
     // setLoading(true);
     axios({
       method: "delete",
-      url: `https://server-pipeline.herokuapp.com/delete-sektor/${id}`,
+      url: `http://localhost:3000/delete-sektor/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -235,7 +235,7 @@ export default function SectorComponent() {
             <>
               <Header>
                 <HeaderRow>
-                  <HeaderCell>Number</HeaderCell>
+                  {/* <HeaderCell>Number</HeaderCell> */}
                   <HeaderCellSort sortKey="nama_sector">
                     Sector Name
                   </HeaderCellSort>
@@ -246,7 +246,7 @@ export default function SectorComponent() {
               <Body>
                 {tableList?.map((item, index) => (
                   <Row key={index}>
-                    <Cell>{no++}</Cell>
+                    {/* <Cell>{no++}</Cell> */}
                     <Cell>{item.nama_sector.toLowerCase()}</Cell>
 
                     <Cell>

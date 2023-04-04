@@ -54,7 +54,7 @@ const navigation = [
   {
     title: "Report",
     href: "/report",
-    icon: "bi bi-card-text",
+    icon: "bi bi-layout-split",
     level: ["admin", "user", "super admin"],
   },
   // {

@@ -131,7 +131,7 @@ export default function PengajuanComponent() {
     setLoading(true);
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pengajuan?page=${params.page}&size=100`,
+      url: `http://localhost:3000/pengajuan?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -160,7 +160,7 @@ export default function PengajuanComponent() {
   function prosesDelete(id) {
     axios({
       method: "delete",
-      url: `https://server-pipeline.herokuapp.com/delete-pengajuan/${id}`,
+      url: `http://localhost:3000/delete-pengajuan/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -230,7 +230,7 @@ export default function PengajuanComponent() {
             <>
               <Header>
                 <HeaderRow>
-                  <HeaderCell>Number</HeaderCell>
+                  {/* <HeaderCell>Number</HeaderCell> */}
                   <HeaderCellSort sortKey="nama_pengajuan">
                     Submission Name
                   </HeaderCellSort>
@@ -241,7 +241,7 @@ export default function PengajuanComponent() {
               <Body>
                 {tableList?.map((item, index) => (
                   <Row key={index}>
-                    <Cell>{no++}</Cell>
+                    {/* <Cell>{no++}</Cell> */}
                     <Cell>{item.nama_pengajuan.toLowerCase()}</Cell>
 
                     <Cell>

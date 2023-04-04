@@ -124,7 +124,7 @@ export default function ProgressComponent() {
     setLoading(true);
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/progress?page=${params.page}&size=100`,
+      url: `http://localhost:3000/progress?page=${params.page}&size=100`,
 
       headers: {
         token: localStorage.getItem("token"),
@@ -153,7 +153,7 @@ export default function ProgressComponent() {
   function prosesDelete(id) {
     axios({
       method: "delete",
-      url: `https://server-pipeline.herokuapp.com/delete-progress/${id}`,
+      url: `http://localhost:3000/delete-progress/${id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -223,7 +223,7 @@ export default function ProgressComponent() {
             <>
               <Header>
                 <HeaderRow>
-                  <HeaderCell>Number</HeaderCell>
+                  {/* <HeaderCell>Number</HeaderCell> */}
                   <HeaderCellSort sortKey="nama_progress">
                     Progress Name
                   </HeaderCellSort>
@@ -234,7 +234,7 @@ export default function ProgressComponent() {
               <Body>
                 {tableList?.map((item, index) => (
                   <Row key={index}>
-                    <Cell>{no++}</Cell>
+                    {/* <Cell>  `{no++}</Cell> */}
                     <Cell>{item.nama_progress.toLowerCase()}</Cell>
 
                     <Cell>

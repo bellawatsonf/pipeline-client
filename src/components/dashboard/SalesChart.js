@@ -2,6 +2,7 @@ import { Card, CardBody, CardSubtitle, CardTitle } from "reactstrap";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FormatRupiah } from "../helper/formatRupiah";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -17,7 +18,7 @@ const SalesChart = (props) => {
   const fetchPipeline = (params) => {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pipeline-dashboard?page=${params.page}&size=100`,
+      url: `http://localhost:3000/pipeline-dashboard?page=${params.page}&size=100`,
       // levelUser === "admin" || levelUser === "super admin" ? linkAdmin : link,
       headers: {
         token: localStorage.getItem("token"),
@@ -58,7 +59,7 @@ const SalesChart = (props) => {
   let databulan = [];
   // let bulan
   stateField.nodes.map((el) => {
-    let cekbln = el.production_to_month.split("-");
+    let cekbln = el?.production_to_month.split("-");
     let namabulan = "";
     if (cekbln[1] === "01") {
       namabulan = "Jan";
@@ -85,9 +86,14 @@ const SalesChart = (props) => {
     } else if (cekbln[1] === "12") {
       namabulan = "Dec";
     }
-    console.log(el, "datael");
-    datanominal.push(el.total);
-    databulan.push(namabulan);
+    console.log(cekbln[0], new Date().getFullYear().toString(), "datael");
+    if (cekbln[0] === new Date().getFullYear().toString()) {
+      console.log(FormatRupiah(el?.total), "total");
+      let uangrupiah = FormatRupiah(el?.total);
+      console.log(uangrupiah, "totallll");
+      datanominal.push(el?.total);
+      databulan.push(namabulan);
+    }
     // datanominal.push({
     //   nama: namabulan,
     //   total: el.total,

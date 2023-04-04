@@ -21,7 +21,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `https://server-pipeline.herokuapp.com/pengajuan/${props.id}`,
+      url: `http://localhost:3000/pengajuan/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -49,7 +49,7 @@ export default function ModalAdd(props) {
       nama_pengajuan: data.pengajuan_name,
     };
     axios
-      .post("https://server-pipeline.herokuapp.com/add-pengajuan", input, {
+      .post("http://localhost:3000/add-pengajuan", input, {
         headers: {
           token: localStorage.getItem("token"),
         },
@@ -58,7 +58,7 @@ export default function ModalAdd(props) {
         props.setOpen(false);
         props.fetchPengajuan();
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "add pengajuan successfully",
           confirmButtonText: "Ok",
@@ -83,20 +83,16 @@ export default function ModalAdd(props) {
       nama_pengajuan: data.pengajuan_name,
     };
     axios
-      .put(
-        `https://server-pipeline.herokuapp.com/edit-pengajuan/${props.id}`,
-        input,
-        {
-          headers: {
-            token: localStorage.getItem("token"),
-          },
-        }
-      )
+      .put(`http://localhost:3000/edit-pengajuan/${props.id}`, input, {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      })
       .then(function (response) {
         props.setOpen(false);
         props.fetchPengajuan();
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "edit pengajuan successfully",
           confirmButtonText: "Ok",
