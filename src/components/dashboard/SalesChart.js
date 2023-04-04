@@ -148,7 +148,7 @@ const SalesChart = (props) => {
       <CardBody>
         <CardTitle tag="h5">Sales Summary</CardTitle>
         <CardSubtitle className="text-muted" tag="h6">
-          Yearly Sales Report Per User
+          Yearly Sales Report
         </CardSubtitle>
         <Chart
           type="area"
