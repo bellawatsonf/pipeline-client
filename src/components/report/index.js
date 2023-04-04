@@ -327,16 +327,16 @@ export default function ReportComponent() {
     console.log(params, "resmasukfetch");
     let link = "";
     if (params.filter_tahun !== undefined || params.filter_month != undefined) {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&filter_tahun=${params.filter_tahun}&waktu_awal=${filter_month}`;
+      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100&filter_tahun=${params.filter_tahun}&waktu_awal=${filter_month}`;
     } else {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
+      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100`;
     }
 
     let linkAdmin = "";
     if (params.filter_tahun !== undefined || params.filter_month != undefined) {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&filter_tahun=${params.filter_tahun}&waktu_awal=${filter_month}`;
+      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100&filter_tahun=${params.filter_tahun}&waktu_awal=${filter_month}`;
     } else {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
+      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`;
     }
     setLoading(true);
     axios({

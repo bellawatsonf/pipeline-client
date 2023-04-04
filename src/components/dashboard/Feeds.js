@@ -96,21 +96,21 @@ const Feeds = (props) => {
     console.log(params, "resmasukfetch");
     let link = "";
     if (params.search !== undefined) {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      link = `http://localhost:3000/pipeline-user?page=${params.page}&size=100`;
+      link = `https://server-pipeline.herokuapp.com/pipeline-user?page=${params.page}&size=100`;
     }
 
     let linkAdmin = "";
     if (params.search !== undefined) {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
+      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100&nama_nasabah=${params.search}`;
     } else {
-      linkAdmin = `http://localhost:3000/pipeline?page=${params.page}&size=100`;
+      linkAdmin = `https://server-pipeline.herokuapp.com/pipeline?page=${params.page}&size=100`;
     }
 
     axios({
       method: "get",
-      url: `http://localhost:3000/pipeline?page=${
+      url: `https://server-pipeline.herokuapp.com/pipeline?page=${
         params.page
       }&size=100&filter_tahun=${new Date()
         .getFullYear()

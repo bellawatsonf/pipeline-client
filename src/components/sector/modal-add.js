@@ -21,7 +21,7 @@ export default function ModalAdd(props) {
   function getOne() {
     axios({
       method: "get",
-      url: `http://localhost:3000/sektor/${props.id}`,
+      url: `https://server-pipeline.herokuapp.com/sektor/${props.id}`,
       headers: {
         token: localStorage.getItem("token"),
       },
@@ -50,7 +50,7 @@ export default function ModalAdd(props) {
     console.log(input, "hasil input");
     axios({
       method: "post",
-      url: "http://localhost:3000/add-sektor",
+      url: "https://server-pipeline.herokuapp.com/add-sektor",
       data: input,
       headers: {
         token: localStorage.getItem("token"),
@@ -85,11 +85,15 @@ export default function ModalAdd(props) {
       nama_sector: data.sector_name,
     };
     axios
-      .put(`http://localhost:3000/edit-sektor/${props.id}`, input, {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
+      .put(
+        `https://server-pipeline.herokuapp.com/edit-sektor/${props.id}`,
+        input,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      )
       .then(function (response) {
         props.setOpen(false);
         props.fetchSektor();
