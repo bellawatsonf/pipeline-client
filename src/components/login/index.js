@@ -49,10 +49,10 @@ export default function LoginComponent() {
       })
       .catch(function (error) {
         console.log(error, "eror");
-        Swal.fire({
-          icon: "error",
-          text: error.response.data.message,
-        });
+        // Swal.fire({
+        //   icon: "error",
+        //   text: error.response.data.message,
+        // });
         // router.push("/login");
         router.push("/");
       });

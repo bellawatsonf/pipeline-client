@@ -130,13 +130,14 @@ const Header = ({ showMobmenu }) => {
             <DropdownItem
               onClick={() => {
                 setLoading(true);
+                // router.reload("/");
                 try {
                   localStorage.removeItem("token");
                   localStorage.removeItem("level");
                   localStorage.removeItem("id");
                   setLoading(false);
                   // router.push("/login");
-                  // router.push("/");
+                  router.push("/");
                   router.reload("/");
                 } catch (e) {
                   console.log(e);
