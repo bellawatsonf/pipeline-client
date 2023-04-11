@@ -48,7 +48,8 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {Component.name === "c" ||
+      {Component.length === 1 ||
+      Component.name === "c" ||
       Component.name === "s" ||
       Component.name === "r" ||
       Component.name === "Login" ? (
