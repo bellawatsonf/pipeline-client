@@ -9,6 +9,7 @@ import Router from "next/router";
 import { useEffect } from "react";
 function MyApp({ Component, pageProps }) {
   let router = useRouter();
+  console.log(router, "ruter");
   let token = null;
   if (typeof window !== "undefined") {
     // Perform localStorage action
@@ -48,11 +49,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {Component.name.length === 1 ||
-      Component.name === "c" ||
-      Component.name === "s" ||
-      Component.name === "r" ||
-      Component.name === "Login" ? (
+      {router.route === "/" || Component.name === "Login" ? (
         <Component {...pageProps} />
       ) : (
         <>
